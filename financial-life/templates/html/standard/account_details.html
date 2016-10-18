@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Account Detail: {{account_name}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<h1>{{account_name}}</h1>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_wealth}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_debts}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_io_money}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_debtpayment}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_win_cum}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_cost_cum}}">
+</div>
+<p><a href="{{backlink}}">back to overview</a></p>
+{% for table in tables %}
+	<div class="col-md-12">
+		<div class="row">
+		<h3>{{ table.category }}</h3>
+			<table class="table">
+				<tr>
+					{% for head in table.data.header %}
+					<th>{{head}}</th>
+					{% endfor %}
+				</tr>
+				{% for row in table.data.rows %}
+				<tr>
+					{% for item in row %}
+					<td>{{item}}</td>
+					{% endfor %}	
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</div>
+{% endfor %}	
+</body>
+</html>

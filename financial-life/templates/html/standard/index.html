@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Finanzuebersicht</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+<h2>{{title}}</h2>
+<p>{{date}}</p>
+
+
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_wealth}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_debts}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_io_money}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_debtpayment}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_win_cum}}">
+</div>
+<div class="col-md-6">
+<img alt="" width="100%" src="{{img_cost_cum}}">
+</div>
+
+
+<div class="col-md-8">
+	<h3>Accounts</h3>
+	<table class="table">
+	  <tr>
+	  	  <th>No.</th>
+		  <th>name</th>
+		  <th>type</th>
+		  <th>start value</th>
+		  <th>start date</th>
+	  </tr>
+
+	  {% for a in accounts %}
+	  <tr>
+	  	  <td>{{ a.index }}</td>
+		  <td><a href="{{a.link}}">{{ a.name }}</a></td>
+		  <td>{{ a.type }}</td>
+		  <td>{{ "{:,.2f}".format(a.start_value) }}</td>
+		  <td>{{ a.start_date }}</td>
+	  </tr>
+	  {% endfor %} 
+	</table>
+</div>
+<div class="col-md-8">
+	<h3>Regular Payments</h3>
+	<table class="table">
+	  <tr>
+		  <th>from</th>
+		  <th>to</th>
+		  <th>interval</th>
+		  <th>day</th>
+		  <th>start date</th>
+		  <th>stop date</th>
+		  <th>payment</th>
+		  <th>name</th>
+		  <th>fixed</th>
+	  </tr>
+
+	  {% for r in payments_regular %}
+	  <tr>
+		  <td>{{ r.from_acc }}</td>
+		  <td>{{ r.to_acc }}</td>
+		  <td>{{ r.interval }}</td>
+		  <td>{{ r.day }}</td>
+		  <td>{{ r.date_start }}</td>
+		  <td>{{ r.date_stop }}</td>
+		  <td>{{ r.payment }}</td>
+		  <td>{{ r.name }}</td>
+		  <td>{{ r.fixed }}</td>
+	  </tr>
+	  {% endfor %} 
+	</table>
+</div>
+<div class="col-md-8">
+	<h3>Unique Payments</h3>
+	<table class="table">
+	  <tr>
+		  <th>from</th>
+		  <th>to</th>
+		  <th>date</th>
+		  <th>payment</th>
+		  <th>name</th>
+		  <th>fixed</th>
+	  </tr>
+	  {% for u in payments_unique %}
+	  <tr>
+		  <td>{{ u.from_acc }}</td>
+		  <td>{{ u.to_acc }}</td>
+		  <td>{{ u.date }}</td>
+		  <td>{{ u.payment }}</td>
+		  <td>{{ u.name }}</td>
+		  <td>{{ u.fixed }}</td>
+	  </tr>
+	  {% endfor %}
+	</table>
+</div>
+
+</body>
+</html>
