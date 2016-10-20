@@ -13,9 +13,9 @@ from collections import Callable
 # custom libraries
 
 # own libraries
-from financing.accounts import Account, DummyAccount
-from financing import id_generator
-from calendar_help import Bank_Date
+from financial_life.financing.accounts import Account, DummyAccount
+from financial_life.financing import id_generator
+from financial_life.calendar_help import Bank_Date
 
 
 

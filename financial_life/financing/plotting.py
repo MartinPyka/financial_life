@@ -14,7 +14,7 @@ import numpy as np
 
 # own libraries
 from .colors import colors, no_colors
-from calendar_help import Bank_Date
+from financial_life.calendar_help import Bank_Date
 
 #ion()
 

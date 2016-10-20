@@ -17,12 +17,12 @@ from decimal import *
 import numpy as np
 
 # own libraries
-from financing import Report, Payments
-from financing import C_default_payment, id_generator
-from financing.colors import colors
-from financing import validate
-from financing.accounts import Account, C_format_date, C_max_time
-from calendar_help import Bank_Date
+from financial_life.financing import Report, Payments
+from financial_life.financing import C_default_payment, id_generator
+from financial_life.financing.colors import colors
+from financial_life.financing import validate
+from financial_life.financing.accounts import Account, C_format_date, C_max_time
+from financial_life.calendar_help import Bank_Date
 
 flex_l5 = {
            'C_POINT_PER_DAY': 0.0563,

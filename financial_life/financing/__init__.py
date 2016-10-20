@@ -17,7 +17,7 @@ import numpy as np
 from numpy.core.numeric import result_type
 
 # own libraries
-from calendar_help import Bank_Date
+from financial_life.calendar_help import Bank_Date
 
 
 # degrees of precision. the higher the number the more

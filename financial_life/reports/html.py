@@ -12,7 +12,7 @@ import platform
 from  jinja2 import Template
 
 # own libraries
-from reports import sl
+from financial_life.reports import sl
 
 path_template = '..{sl}templates{sl}html'.format(sl=sl)
 

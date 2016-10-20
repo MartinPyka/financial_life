@@ -6,8 +6,8 @@ Created on Thu Jun 23 21:40:47 2016
 """
 
 import unittest
-import financing
-from calendar_help import Bank_Date
+import financial_life.financing as financing
+from financial_life.calendar_help import Bank_Date
 from datetime import datetime
 
 class Test_Create_Stop_Criteria(unittest.TestCase):

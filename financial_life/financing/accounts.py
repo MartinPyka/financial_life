@@ -14,12 +14,12 @@ import logging
 # third-party libraries
 
 # own libraries
-from financing import Payment
-from financing import PaymentList
-from financing import Report
-from financing import C_default_payment
-from calendar_help import Bank_Date, get_days_per_year
-from financing import plotting as plt
+from financial_life.financing import Payment
+from financial_life.financing import PaymentList
+from financial_life.financing import Report
+from financial_life.financing import C_default_payment
+from financial_life.calendar_help import Bank_Date, get_days_per_year
+from financial_life.financing import plotting as plt
 # note that there is an import at the end of the module !!!
 
 logger = logging.getLogger(__name__)
@@ -194,12 +194,12 @@ class Simulation(object):
                              for i, a in enumerate(self.accounts)]
                 }
         
-    def add_unique(self, from_acc, to_acc, date, payment, name = '', fixed = True):
+    def add_unique(self, from_acc, to_acc, date, payment, name = '', fixed = False):
         """ Transfers money from one account to the other """
         from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
         self._payments.add_unique(from_acc, to_acc, date, payment, name, fixed)
     
-    def add_regular(self, from_acc, to_acc, payment, interval, date_start, day=1, name = '', date_stop = None, fixed = True):
+    def add_regular(self, from_acc, to_acc, payment, interval, date_start=datetime.min, day=1, name = '', date_stop = None, fixed = False):
         """ Transfers money from one account to the other on regular basis
         date_stop can be a function of the form lambda x: x > datetime(...)
         If it returns true, the payment is stopped
@@ -1038,4 +1038,4 @@ class Property(Account):
             self._caccount = new_caccount
             self.make_report()
     
-from financing import validate
+from financial_life.financing import validate
