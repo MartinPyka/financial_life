@@ -10,8 +10,8 @@ from datetime import datetime
 # third-party libraries
 
 # own libraries
-from financing import accounts as a
-from reports import html as h
+from financial-life.financing import accounts as a
+from financial-life.reports import html as h
 
 
 
