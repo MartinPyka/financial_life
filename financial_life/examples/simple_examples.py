@@ -10,8 +10,8 @@ from datetime import datetime
 # third-party libraries
 
 # own libraries
-from financial-life.financing import accounts as a
-from financial-life.reports import html as h
+from financial_life.financing import accounts as a
+from financial_life.reports import html as h
 
 
 
@@ -19,32 +19,18 @@ def example1():
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
     loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
-    simulation = a.Simulation(account, loan, name = 'Testsimulation')
-    simulation.add_regular(from_acc = 'Income', 
-                           to_acc = account, 
-                           payment = 2000, 
-                           interval = 'monthly', 
-                           date_start = datetime(2016,9,15), 
-                           day = 15, 
-                           name = 'Income')
+    simulation = a.Simulation(account, loan)
+    simulation.add_regular('Income', account, 2000, interval = 'monthly')
     
-    simulation.add_regular(from_acc = account, 
-                           to_acc= loan, 
-                           payment = 1500, 
-                           interval = 'monthly', 
-                           date_start = datetime(2016,9,15), 
-                           day = 15, 
-                           name = 'Debts',
-                           fixed = False,
-                           date_stop = lambda cdate: loan.is_finished())
+    simulation.add_regular(account, loan, 1500, interval= 'monthly')
     
-    simulation.simulate(date_stop = datetime(2030,2, 17))
+    simulation.simulate(date_stop = datetime(2024,2, 17))
     
     simulation.plt_summary()
-    #print(simulation.report)
+
     print(account.report.yearly())
     print(loan.report.yearly())
-    #print(account.get_account())
+
 
 def example2():
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
@@ -97,10 +83,8 @@ def example2():
     #print(savings.report.yearly())
     #print(account.get_account())
     
-def html_export():
-    h.report(1)
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    #example2()
-    html_export()
+    #logging.basicConfig(level=logging.INFO)
+    example1()
+    #html_export()
