@@ -5,7 +5,7 @@ Created on 14.08.2016
 '''
 # standard libraries
 import logging
-from datetime import datetime
+from datetime import timedelta, datetime
 
 # third-party libraries
 
@@ -24,7 +24,7 @@ def example1():
     
     simulation.add_regular(account, loan, 1500, interval= 'monthly')
     
-    simulation.simulate(date_stop = datetime(2024,2, 17))
+    simulation.simulate(delta = timedelta(days=365*10))
     
     simulation.plt_summary()
 
