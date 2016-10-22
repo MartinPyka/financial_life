@@ -6,23 +6,25 @@ financial-life is an opinionated framework written in Python that allows to simu
 
 # Usage
 Say you want to model an account with regular income and payments to a loan
-     
-    from datetime import timedelta
-    from financial_life.financing import accounts as a
-    
-    account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
-    loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
-    simulation = a.Simulation(account, loan)
+```python
+from datetime import timedelta
+from financial_life.financing import accounts as a
     
-    simulation.add_regular('Income', account, 2000, interval = 'monthly')
-    simulation.add_regular(account, loan, 1500, interval= 'monthly')
-    
-    simulation.simulate(delta = timedelta(days=365*10))
-    simulation.plt_summary()
+account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
+loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
-    print(account.report.yearly())
-    print(loan.report.yearly())
+simulation = a.Simulation(account, loan)
+    
+simulation.add_regular('Income', account, 2000, interval = 'monthly')
+simulation.add_regular(account, loan, 1500, interval= 'monthly')
+    
+simulation.simulate(delta = timedelta(days=365*10))
+simulation.plt_summary()
+
+print(account.report.yearly())
+print(loan.report.yearly())
+```  
 
 The output of will look similar to this one:
 
