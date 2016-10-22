@@ -366,7 +366,7 @@ class Report(object):
                 # need to take the latest value
                 if "cum" in self.semantics_of(key):
                     data[key] += value
-                else:
+                elif not self.semantics_of(key) is "none":
                     data[key] = value
             return data
         
@@ -457,6 +457,7 @@ class Report(object):
     
     def __str__(self):
         """ Prints all statuses in table view """
+        print(self.name)
         records = self.table_rows()
         return tabulate(records, headers=(['Date'] + self._keys))
     

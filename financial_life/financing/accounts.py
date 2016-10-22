@@ -487,8 +487,7 @@ class Account(object):
             interest = interest / 100.
         
         # setting up the report and the semantics
-        self._report = Report(
-            name = self._name + ' - ' + str(self._date_start.strftime(C_format_date)))
+        self._report = Report(name = self._name)
         
         self._account = int(amount * 100)
         self._interest = interest
@@ -970,8 +969,7 @@ class Property(Account):
         self._loan = loan
         
         # setting up the report and the semantics
-        self._report = Report(
-            name = self._name + ' - ' + str(self._date_start.strftime(C_format_date)))
+        self._report = Report(name = self._name)
         
         self._report.add_semantics('account', 'saving_abs')
         self._report.add_semantics('property_value', 'none')
