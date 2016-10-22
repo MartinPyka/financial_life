@@ -14,22 +14,23 @@ from financial_life.financing import accounts as a
 from financial_life.reports import html as h
 
 
-
 def example1():
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
     loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
     simulation = a.Simulation(account, loan)
-    simulation.add_regular('Income', account, 2000, interval = 'monthly')
     
-    simulation.add_regular(account, loan, 1500, interval= 'monthly')
+    simulation.add_regular('Income', account, 2000, interval = 'monthly')
+    simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
     
     simulation.simulate(delta = timedelta(days=365*10))
-    
     simulation.plt_summary()
 
     print(account.report.yearly())
     print(loan.report.yearly())
+    
+    print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
+    print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 
 
 def example2():
