@@ -8,52 +8,53 @@ financial-life is an opinionated framework written in Python that allows to simu
 Say you want to model an account with regular income and payments to a loan
 
 ```python
-from datetime import timedelta
-from financial_life.financing import accounts as a
-    
 account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
 loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
 simulation = a.Simulation(account, loan)
-    
+
 simulation.add_regular('Income', account, 2000, interval = 'monthly')
-simulation.add_regular(account, loan, 1500, interval= 'monthly')
-    
+simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
+
 simulation.simulate(delta = timedelta(days=365*10))
 simulation.plt_summary()
 
 print(account.report.yearly())
 print(loan.report.yearly())
+
+print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
+print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 ```  
 
 The output of will look similar to this one:
 
-
-    Date          input    account  foreign_account      output  description                   interest  kind
-    ----------  -------  ---------  -----------------  --------  --------------------------  ----------  ---------------
-    31.12.2016   4000      2000.33                        -3000                                    0.33  yearly interest
-    31.12.2017  24000      8005.59                       -18000                                    5.26  yearly interest
-    31.12.2018  24000     14016.9                        -18000                                   11.27  yearly interest
-    31.12.2019  24000     20034.1                        -18000                                   17.28  yearly interest
-    31.12.2020  24000     26057.4                        -18000                                   23.29  yearly interest
-    31.12.2021  24000     32086.8                        -18000                                   29.32  yearly interest
-    31.12.2022  32140.9   46265.2                        -18000                                   37.56  yearly interest
-    31.12.2023  42000     70324.5                        -18000                                   59.32  yearly interest
-    31.12.2024  42000     94407.9                        -18000                                   83.35  yearly interest
-    31.12.2025  42000    118515                          -18000                                  107.46  yearly interest
-    01.10.2026  35000    138515                          -15000                                    0     storno
-    Date          account    payment  foreign_account    description      interest  kind
-    ----------  ---------  ---------  -----------------  -------------  ----------  ---------------
-    31.12.2016  -97195.7     3000                                          -195.68  yearly interest
-    31.12.2017  -80069.8    18000                                          -874.07  yearly interest
-    31.12.2018  -62772.6    18000                                          -702.81  yearly interest
-    31.12.2019  -45302.4    18000                                          -529.84  yearly interest
-    31.12.2020  -27657.7    18000                                          -355.32  yearly interest
-    31.12.2021   -9836.41   18000                                          -178.69  yearly interest
-    31.12.2022       0       9859.09                                        -22.68  yearly interest
-    31.12.2023       0          0                                             0     yearly interest
-    31.12.2024       0          0                                             0     yearly interest
-    31.12.2025       0          0                                             0     yearly interest
+	Main account
+	Date           output    input    interest    account
+	----------  ---------  -------  ----------  ---------
+	31.12.2016   -3000        4000        0.32    2000.32
+	31.12.2017  -18000       24000        5.26    8005.58
+	31.12.2018  -18000       24000       11.27   14016.9
+	31.12.2019  -18000       24000       17.28   20034.1
+	31.12.2020  -18000       24000       23.29   26057.4
+	31.12.2021  -18000       24000       29.32   32086.7
+	31.12.2022   -9830.65    24000       37.57   46293.7
+	31.12.2023     -22.65    24000       59.32   70330.3
+	31.12.2024       0       24000       83.36   94413.7
+	31.12.2025       0       24000      107.47  118521
+	01.10.2026       0       20000        0     138521
+	House Credit
+	Date          interest    account    payment
+	----------  ----------  ---------  ---------
+	31.12.2016     -190.22  -97190.2     3000
+	31.12.2017     -874.01  -80064.2    18000
+	31.12.2018     -702.75  -62767      18000
+	31.12.2019     -529.78  -45296.8    18000
+	31.12.2020     -355.26  -27652      18000
+	31.12.2021     -178.63   -9830.65   18000
+	31.12.2022      -22.65     -22.65    9830.65
+	31.12.2023        0          0         22.65
+	31.12.2024        0          0          0
+	31.12.2025        0          0          0
 
 
 # Installation
