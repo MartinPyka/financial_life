@@ -55,7 +55,8 @@ The output of will look similar to this one:
 	31.12.2023        0          0         22.65
 	31.12.2024        0          0          0
 	31.12.2025        0          0          0
-
+	Interests on bank account: 374.46
+	Interests on loan account: -2853.30
 
 # Installation
 To get a working environment, simply do
