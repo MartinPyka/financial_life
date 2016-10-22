@@ -459,7 +459,7 @@ class Report(object):
         """ Prints all statuses in table view """
         print(self.name)
         records = self.table_rows()
-        return tabulate(records, headers=(['Date'] + self._keys))
+        return tabulate(records, headers=(['Date'] + self._keys), floatfmt=".2f")
     
     
 class Payment_Value(object):

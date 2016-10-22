@@ -17,7 +17,7 @@ from financial_life.reports import html as h
 def example1():
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
     loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
-
+    
     simulation = a.Simulation(account, loan)
     
     simulation.add_regular('Income', account, 2000, interval = 'monthly')
@@ -25,7 +25,7 @@ def example1():
     
     simulation.simulate(delta = timedelta(days=365*10))
     simulation.plt_summary()
-
+    
     print(account.report.yearly())
     print(loan.report.yearly())
     

@@ -860,8 +860,12 @@ class Loan(Account):
                             description = description
                             )
 
+    @property
+    def account(self):
+        return (self._caccount + self._sum_interest) / 100   
+
     def get_account(self):
-        return (self._caccount + self._sum_interest) / 100
+        return self.account
 
     def exec_interest_time(self):
         """ Does all things, when self.interest_time() returns true (like adding
