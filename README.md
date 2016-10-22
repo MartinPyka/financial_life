@@ -61,8 +61,8 @@ The output of will look similar to this one:
 # Installation
 To get a working environment, simply do
 
-	git clone https://github.com/MartinPyka/financial-life.git
-	cd financial-life
+	git clone https://github.com/MartinPyka/financial_life.git
+	cd financial_life
 	virtualenv venv
 	source venv/bin/activate
 	pip install -r requirements.txt
