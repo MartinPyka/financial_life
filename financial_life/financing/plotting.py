@@ -137,7 +137,7 @@ def add_labels(semantic, *reports, color_theme = C_cold_colors, color_offset = 0
         for i, k in enumerate(r.semantics(semantic)):
             plot([], [], 
                  color=colors[color_theme][j % no_colors][i+color_offset], 
-                 label=r.name + k,
+                 label=r.name + ': ' + k,
                  linewidth=10)
             
 def plot_stack_generic(X, Y, c, semantic, *reports, color_theme = C_cold_colors, color_offset = 0):
