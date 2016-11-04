@@ -11,7 +11,7 @@ Say you want to model an account with regular income and payments to a loan
 from financial_life.financing import accounts as a
 from datetime import timedelta, datetime
 
-# create a private bank account and a loan 
+# create a private bank account and a loan account
 account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
 loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
@@ -40,7 +40,7 @@ print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
 print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 ```  
 
-The output of will look similar to this one:
+The output will look similar to this one:
 
 <img src="docs/img/simple_example_01_small.png" alt="Simple simulation in financial_life" width="800">
 
@@ -75,7 +75,7 @@ The output of will look similar to this one:
 	Interests on bank account: 374.45
 	Interests on loan account: -2853.30
 
-Now let's say, we put some money on a special savings account with better interests, because we want to purchase in two years a car. With financial_life you describe just that.
+Now let's say, we put some money on a special savings account with better interests, because we want to purchase in two years a car. With financial_life, you just add the necessary changes in your model to your simulation script.
 
 ```python
 # create new account
@@ -92,7 +92,7 @@ simulation.add_regular(account, savings, 500, interval = 'monthly')
 simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
 ```
 
-Now, the plots include the savings-account as well.
+And the plots include the savings-account as well.
 
 <img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="800">
 
