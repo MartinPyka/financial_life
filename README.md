@@ -38,7 +38,7 @@ print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 
 The output of will look similar to this one:
 
-![Simple simulation in financial_life](docs/img/simple_example_01_small.png "Simple simulation in financial_life")
+![Simple simulation in financial_life](docs/img/simple_example_01_small.png "Simple simulation in financial_life"){:height="904px" width="900px"}
 
 	Main account
 	Date          account     output     input    interest
