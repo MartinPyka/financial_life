@@ -8,6 +8,9 @@ financial-life is an opinionated framework written in Python that allows to simu
 Say you want to model an account with regular income and payments to a loan
 
 ```python
+from financial_life.financing import accounts as a
+from datetime import timedelta, datetime
+
 # create a private bank account and a loan 
 account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
 loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
@@ -84,13 +87,27 @@ simulation.add_account(savings)
 # add regular payment to the savings-account
 simulation.add_regular(account, savings, 500, interval = 'monthly')
 
-# you can use strings or datetime objects as arguments for dates 
+# somewhere in the distant future we will make a payment to
+# the vendor of a car 
 simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
 ```
 
 Now, the plots include the savings-account as well.
 
 <img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="900" height="930">
+
+You can also export the simulation to HTML to explore your model in the browser:
+
+```python
+from financial_life.reports import html
+
+cwd = os.path.dirname(os.path.realpath(__file__))
+result_folder = cwd + '/result'
+    
+html.report(simulation, style="standard", output_dir = result_folder)
+``` 
+
+<img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="800" height="407">
 
 # Installation
 To get a working environment, simply do
