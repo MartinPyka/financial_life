@@ -60,6 +60,7 @@ def summary(*reports):
     subplot(3,2,6, sharex = ax_date, sharey = ax_winloss)
     plot_stack_cum('cost_cum', *reports, color_offset = 2)
     title('Cumulated costs')
+    plt.tight_layout()
     return fig
 
 def summary_img(*reports, target = './', figsize = (10, 5), dpi = 100, prefix=''):
