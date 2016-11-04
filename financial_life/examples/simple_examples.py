@@ -40,9 +40,39 @@ def example1():
     # analyze data
     print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
     print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
-
-
+    
 def example2():
+    # create a private bank account and a loan 
+    account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
+    savings = a.Bank_Account(amount = 5000, interest = 0.007, name = 'Savings')
+    loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
+
+    # add these accounts to the simulation
+    simulation = a.Simulation(account, savings, loan)
+    
+    # describe single or regular payments between accounts. note, that
+    # a string can be used for external accounts that you don't want to model.
+    # also note the lambda function for the payments to the loan. 
+    simulation.add_regular('Income', account, 2000, interval = 'monthly')
+    simulation.add_regular(account, savings, 500, interval = 'monthly')
+    simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
+    simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
+    
+    # simulate for ten years
+    simulation.simulate(delta = timedelta(days=365*10))
+    # plot the data
+    simulation.plt_summary()
+    
+    # print reports summarized in years
+    print(account.report.yearly())
+    print(loan.report.yearly())
+    
+    # analyze data
+    print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
+    print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))    
+
+
+def example3():
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
     savings = a.Bank_Account(amount = 5000, interest = 0.013, name = 'Savings')
     loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
@@ -96,5 +126,5 @@ def example2():
 
 if __name__ == '__main__':
     #logging.basicConfig(level=logging.INFO)
-    example1()
+    example2()
     #html_export()

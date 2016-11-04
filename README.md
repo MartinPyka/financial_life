@@ -17,8 +17,9 @@ simulation = a.Simulation(account, loan)
 
 # describe single or regular payments between accounts. note, that
 # a string can be used for external accounts that you don't want to model.
-# also note the lambda function for the payments to the loan. 
 simulation.add_regular('Income', account, 2000, interval = 'monthly')
+# you can also use lambda function to dynamically decide how much money
+# you would like to transfer
 simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
 
 # simulate for ten years
@@ -70,6 +71,20 @@ The output of will look similar to this one:
 	31.12.2025       0.00        0.00       0.00
 	Interests on bank account: 374.45
 	Interests on loan account: -2853.30
+
+Now let's say, we put some money on a special savings account with better interest, because we want to purchase in two years.
+
+```python
+savings = a.Bank_Account(amount = 5000, interest = 0.007, name = 'Savings')
+simulation = a.Simulation(account, savings, loan)
+simulation.add_regular(account, savings, 500, interval = 'monthly')
+# you can use strings or datetime objects as arguments for dates 
+simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
+```
+
+The plots are updated accordingly:
+
+<img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="900" height="930">
 
 # Installation
 To get a working environment, simply do
