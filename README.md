@@ -72,17 +72,23 @@ The output of will look similar to this one:
 	Interests on bank account: 374.45
 	Interests on loan account: -2853.30
 
-Now let's say, we put some money on a special savings account with better interest, because we want to purchase in two years.
+Now let's say, we put some money on a special savings account with better interests, because we want to purchase in two years a car. With financial_life you describe just that.
 
 ```python
+# create new account
 savings = a.Bank_Account(amount = 5000, interest = 0.007, name = 'Savings')
-simulation = a.Simulation(account, savings, loan)
+
+# add it to the simulation (or create a new simulation with all three accounts)
+simulation.add_account(savings)
+
+# add regular payment to the savings-account
 simulation.add_regular(account, savings, 500, interval = 'monthly')
+
 # you can use strings or datetime objects as arguments for dates 
 simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
 ```
 
-The plots are updated accordingly:
+Now, the plots include the savings-account as well.
 
 <img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="900" height="930">
 
