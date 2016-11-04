@@ -107,7 +107,7 @@ result_folder = cwd + '/result'
 html.report(simulation, style="standard", output_dir = result_folder)
 ``` 
 
-<img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="800" height="407">
+<img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
 # Installation
 To get a working environment, simply do
