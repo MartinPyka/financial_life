@@ -194,10 +194,11 @@ class Simulation(object):
                              for i, a in enumerate(self.accounts)]
                 }
         
-    def add_unique(self, from_acc, to_acc, date, payment, name = '', fixed = False):
+    def add_unique(self, from_acc, to_acc, payment, date, name = '', fixed = False):
         """ Transfers money from one account to the other """
         from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
-        self._payments.add_unique(from_acc, to_acc, date, payment, name, fixed)
+        date = validate.valid_date(date)
+        self._payments.add_unique(from_acc, to_acc, payment, date, name, fixed)
     
     def add_regular(self, from_acc, to_acc, payment, interval, date_start=datetime.min, day=1, name = '', date_stop = None, fixed = False):
         """ Transfers money from one account to the other on regular basis
@@ -205,6 +206,9 @@ class Simulation(object):
         If it returns true, the payment is stopped
         """
         from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
+        date_start = validate.valid_date(date_start)
+        if date_stop is not None:
+            date_stop = validate.valid_date(date_stop)
         self._payments.add_regular(from_acc, to_acc, payment, interval, date_start, day, name, date_stop, fixed)
         
     def add_account(self, account):

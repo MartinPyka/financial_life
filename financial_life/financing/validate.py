@@ -18,17 +18,35 @@ from financial_life.financing import id_generator
 from financial_life.calendar_help import Bank_Date
 
 
+date_formats = [
+                '%d.%m.%Y',
+                '%d.%m.%y',
+                '%m/%d/%Y',
+                '%m/%d/%y',
+                ]
+
+def parse_datestring(datestr):
+    """ Tries to parse the datestring against a few common formats """
+    for format in date_formats:
+        try:
+            date = datetime.strptime(datestr, format)
+            return date
+        except ValueError:
+            pass
 
 def valid_date(date):
     """ routine for makig a date out of anything that the user might
     have given to the function """
     if date is None:
-        date = Bank_Date.today()
-    if not isinstance(date, Bank_Date) and isinstance(date, datetime):
-        date = Bank_Date.fromtimestamp(date.timestamp())
-    if not isinstance(date, Bank_Date) and not isinstance(date, datetime) and not  isinstance(date, Callable):
-        raise TypeError("Date must be at least from type datetime or callable")
-    return date
+        return Bank_Date.today()
+    if isinstance(date, Bank_Date):
+        return date
+    if isinstance(date, datetime):
+        return Bank_Date.fromtimestamp(date.timestamp())
+    if isinstance(date, str):
+        return parse_datestring(date)
+    raise TypeError("Date must be at least from type datetime or callable")
+
     
 def valid_name(name):
     if not name:

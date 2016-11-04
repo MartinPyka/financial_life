@@ -576,7 +576,7 @@ class PaymentList(object):
             not isinstance(payment, Callable)):
             raise TypeError("Payment must be int, float or a function")
             
-    def add_unique(self, from_acc, to_acc, date, payment, name = '', fixed = True):
+    def add_unique(self, from_acc, to_acc, payment, date, name = '', fixed = True):
         """ adds a one-time payment to the list, optional give it
         a name """ 
         if not isinstance(date, datetime):
@@ -624,7 +624,7 @@ class PaymentList(object):
         if not date_stop:
             date_stop = Bank_Date.max
         else:
-            valid_date(date_stop)               
+            date_stop = valid_date(date_stop)               
         
         # converts any payment to a function
         conv_payment = conv_payment_func(payment)
