@@ -42,7 +42,7 @@ print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 
 The output of will look similar to this one:
 
-<img src="docs/img/simple_example_01_small.png" alt="Simple simulation in financial_life" width="900" height="904">
+<img src="docs/img/simple_example_01_small.png" alt="Simple simulation in financial_life" width="800">
 
 
 	Main account
@@ -94,7 +94,7 @@ simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
 
 Now, the plots include the savings-account as well.
 
-<img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="900" height="930">
+<img src="docs/img/simple_example_02_small.png" alt="Simple simulation in financial_life" width="800">
 
 You can also export the simulation to HTML to explore your model in the browser:
 
