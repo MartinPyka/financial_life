@@ -208,7 +208,7 @@ class Simulation(object):
         from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
         date_start = validate.valid_date(date_start)
         if date_stop is not None:
-            date_stop = validate.valid_date(date_stop)
+            date_stop = validate.valid_stop_date(date_stop)
         self._payments.add_regular(from_acc, to_acc, payment, interval, date_start, day, name, date_stop, fixed)
         
     def add_account(self, account):

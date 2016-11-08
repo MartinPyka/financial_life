@@ -47,6 +47,15 @@ def valid_date(date):
         return parse_datestring(date)
     raise TypeError("Date must be at least from type datetime or callable")
 
+def valid_stop_date(date):
+    """ routine for makig a date out of anything that the user might
+    have given to the function """
+    if isinstance(date, Callable):
+        return date
+    else:
+        return valid_date(date)
+    raise TypeError("Date must be at least from type datetime or callable")
+
     
 def valid_name(name):
     if not name:
