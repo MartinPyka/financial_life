@@ -13,7 +13,6 @@ import os
 from financial_life.financing import accounts as a
 from financial_life.reports import html
 
-
 def example1():
     # create a private bank account and a loan 
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
@@ -128,4 +127,4 @@ def example3():
     print(loan.report)
 
 if __name__ == '__main__':
-    example3()
+    example2()
