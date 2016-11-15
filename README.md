@@ -121,6 +121,10 @@ To get a working environment, simply do
 	source venv/bin/activate
 	pip install -r requirements.txt
 
+You can checkout the example with
+	
+	python financial_life/examples/simple_examples.py
+
 For installing the package:
 
 	git clone https://github.com/MartinPyka/financial_life.git
@@ -129,4 +133,8 @@ For installing the package:
 
 Or use pip
 
- 	pip install financial_life
+ 	pip install financial_lifeo
+
+You can try the example with
+
+
