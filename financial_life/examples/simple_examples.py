@@ -73,7 +73,7 @@ def example2():
     print("Bank account: %.2f" % (account.account + savings.account))
     
     cwd = os.path.dirname(os.path.realpath(__file__))
-    result_folder = cwd + '/result'
+    result_folder = cwd + '/example2'
     
     html.report(simulation, style="standard", output_dir = result_folder)
 
@@ -123,14 +123,9 @@ def example3():
     simulation.simulate(date_stop = datetime(2018,2, 17))
     
     simulation.plt_summary()
-    #print(simulation.report)
+
     print(account.report)
     print(loan.report)
-    #print(savings.report.yearly())
-    #print(account.get_account())
-    
 
 if __name__ == '__main__':
-    #logging.basicConfig(level=logging.INFO)
-    example2()
-    #html_export()
+    example3()
