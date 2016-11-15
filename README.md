@@ -110,6 +110,9 @@ html.report(simulation, style="standard", output_dir = result_folder)
 <img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
 # Installation
+
+financial_life has been written in Python 3.4 and has not  been tested for Python 2.x.
+
 To get a working environment, simply do
 
 	git clone https://github.com/MartinPyka/financial_life.git
@@ -118,5 +121,12 @@ To get a working environment, simply do
 	source venv/bin/activate
 	pip install -r requirements.txt
 
-A package-based installation is coming soon.
+For installing the package:
 
+	git clone https://github.com/MartinPyka/financial_life.git
+	cd financial_life
+	python setup.py install
+
+Or use pip
+
+ 	pip install financial_life
