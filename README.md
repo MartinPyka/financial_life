@@ -135,6 +135,4 @@ Or use pip
 
  	pip install financial_life
 
-You can try the example with
-
 
