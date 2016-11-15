@@ -133,7 +133,7 @@ For installing the package:
 
 Or use pip
 
- 	pip install financial_lifeo
+ 	pip install financial_life
 
 You can try the example with
 
