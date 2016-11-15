@@ -40,7 +40,7 @@ print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
 print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 ```  
 
-The output will look similar to this one:
+The output will look like this one:
 
 <img src="docs/img/simple_example_01_small.png" alt="Simple simulation in financial_life" width="800">
 
@@ -89,7 +89,7 @@ simulation.add_regular(account, savings, 500, interval = 'monthly')
 
 # somewhere in the distant future we will make a payment to
 # the vendor of a car 
-simulation.add_unique(savings, 'Vendor for car', 10000, '17.03.2019')
+simulation.add_unique(savings, 'Vendor of a car', 10000, '17.03.2019')
 ```
 
 The plot will now include the savings-account as well.

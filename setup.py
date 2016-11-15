@@ -5,8 +5,6 @@ Created on Tue Nov  8 21:26:07 2016
 
 @author: martin
 """
-
-
 from distutils.core import setup
 
 setup(name='Financial_Life',
