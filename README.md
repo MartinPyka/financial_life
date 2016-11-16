@@ -2,7 +2,9 @@
 A framework for analysing financial products in personalized contexts
 
 # Description
-financial-life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations facilitate a deeper and more holistic understanding of financial plans and a better comparison of financial products in personalized contexts.
+financial-life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations allow a deeper understanding of financial plans and a better comparison of financial products (in particular loan conditions) for personal circumstances. 
+
+financial_life was designed with the idea in mind that any line of code should contribute to the description of the problem you want to model. In spreadsheets you would deal with a lot of auxiliary tables to accurately calculate the course of a loan influenced by incoming payments and generated interests. In financial_life you just create your loan account with the given interests rate and you define the regular payments going into this loan account. That's it. Changes in the model and the exploration of different parameters within this model are therefore way easier to accomplish than in a spreadsheet-based simulation.
 
 # Usage
 Say you want to model an account with regular income and payments to a loan
