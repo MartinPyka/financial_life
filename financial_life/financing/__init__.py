@@ -6,8 +6,6 @@ from datetime import datetime
 from calendar import monthrange
 import warnings
 from copy import deepcopy
-import string
-import random
 from collections import defaultdict
 from collections import Callable
 
@@ -18,7 +16,8 @@ from numpy.core.numeric import result_type
 
 # own libraries
 from financial_life.calendar_help import Bank_Date
-
+from financial_life.financing.identity import id_generator
+from financial_life.financing import validate
 
 # degrees of precision. the higher the number the more
 # precise is the category
@@ -50,23 +49,6 @@ report_semantics = {'input_abs': [],    # money transfered to the financial prod
                     'saving_cum': [],   # ...as increment
                     'none': [],         # none of the above things
                     }
-
-def id_generator(
-    size=6, 
-    chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
-
-# TODO: remove code duplication, as this code exist also in validate.py
-def valid_date(date):
-    """ routine for makig a date out of anything that the user might
-    have given to the function """
-    if date is None:
-        date = Bank_Date.today()
-    if not isinstance(date, Bank_Date) and isinstance(date, datetime):
-        date = Bank_Date.fromtimestamp(date.timestamp())
-    if not isinstance(date, Bank_Date) and not isinstance(date, datetime) and not  isinstance(date, Callable):
-        raise TypeError("Date must be at least from type datetime or callable")
-    return date
 
 
 def conv_payment_func(x):
@@ -624,7 +606,7 @@ class PaymentList(object):
         if not date_stop:
             date_stop = Bank_Date.max
         else:
-            date_stop = valid_date(date_stop)               
+            date_stop = validate.valid_stop_date(date_stop)               
         
         # converts any payment to a function
         conv_payment = conv_payment_func(payment)
@@ -681,6 +663,5 @@ class Currency():
     """ Standard class for currencies to assure correct computing
     of numbers """
     def __init__(self, value, digits = 2):
-        self._value = int(value * (10**digits))
-        
+        self._value = int(value * (10**digits))        
     

@@ -20,7 +20,7 @@ from financial_life.financing import Report
 from financial_life.financing import C_default_payment
 from financial_life.calendar_help import Bank_Date, get_days_per_year
 from financial_life.financing import plotting as plt
-# note that there is an import at the end of the module !!!
+from financial_life.financing import validate
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,28 @@ def neg_func(func):
         result = func()
         return -result
     return foo
+
+def valid_account_type(*accounts):
+    """ Checks whether all accounts given to this function 
+    are either from type Account or from type string 
+    Accounts of type string are converted to DummyAccount
+    The corrected list is returned 
+    
+    The only reason this method is not in the validate module
+    is because it would create an import loop
+    """
+    result = []
+    for account in accounts:
+        if (isinstance(account, Account)):
+            result.append(account)
+        elif (isinstance(account, str)):
+            result.append(DummyAccount(account))
+        else:
+            raise TypeError('the given account must be either derived from type Account or of type string')        
+    return tuple(result)
+
+
+
 
 class TransferMessage(object):
     """ Message returned by a transfer function with some information about
@@ -196,7 +218,7 @@ class Simulation(object):
         
     def add_unique(self, from_acc, to_acc, payment, date, name = '', fixed = False):
         """ Transfers money from one account to the other """
-        from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
+        from_acc, to_acc = valid_account_type(from_acc, to_acc)
         date = validate.valid_date(date)
         self._payments.add_unique(from_acc, to_acc, payment, date, name, fixed)
     
@@ -205,7 +227,7 @@ class Simulation(object):
         date_stop can be a function of the form lambda x: x > datetime(...)
         If it returns true, the payment is stopped
         """
-        from_acc, to_acc = validate.valid_account_type(from_acc, to_acc)
+        from_acc, to_acc = valid_account_type(from_acc, to_acc)
         date_start = validate.valid_date(date_start)
         if date_stop is not None:
             date_stop = validate.valid_stop_date(date_stop)
@@ -1043,5 +1065,3 @@ class Property(Account):
              (self._current_date.month == 12))):
             self._caccount = new_caccount
             self.make_report()
-    
-from financial_life.financing import validate

@@ -13,8 +13,7 @@ from collections import Callable
 # custom libraries
 
 # own libraries
-from financial_life.financing.accounts import Account, DummyAccount
-from financial_life.financing import id_generator
+from financial_life.financing.identity import id_generator
 from financial_life.calendar_help import Bank_Date
 
 
@@ -35,7 +34,7 @@ def parse_datestring(datestr):
             pass
 
 def valid_date(date):
-    """ routine for makig a date out of anything that the user might
+    """ routine for making a date out of anything that the user might
     have given to the function """
     if date is None:
         return Bank_Date.today()
@@ -77,18 +76,3 @@ def valid_delta(delta):
     assert isinstance(delta, timedelta), 'delta must be of type timedelta or int'
     assert delta.days > 0, 'delta must be positive'
     return delta
-
-def valid_account_type(*accounts):
-    """ Checks whether all accounts given to this function 
-    are either from type Account or from type string 
-    Accounts of type string are converted to DummyAccount
-    The corrected list is returned """
-    result = []
-    for account in accounts:
-        if (isinstance(account, Account)):
-            result.append(account)
-        elif (isinstance(account, str)):
-            result.append(DummyAccount(account))
-        else:
-            raise TypeError('the given account must be either derived from type Account or of type string')        
-    return tuple(result)
