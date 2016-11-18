@@ -26,7 +26,7 @@ def example1():
     # also note the lambda function for the payments to the loan. 
     simulation.add_regular('Income', account, 2000, interval = 'monthly')
     # you can also use lambda function to dynamically decide how much money
-# you would like to transfer
+    # you would like to transfer
     simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
     
     # simulate for ten years
