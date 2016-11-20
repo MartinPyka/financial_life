@@ -1,4 +1,4 @@
-# Getting started
+# The first simulation
 
 In this chapter, we are going to introduce the basic concepts of creating a simulation in order to analyse monetary flows and growth on bank accounts.
 
