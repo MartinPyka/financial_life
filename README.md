@@ -2,7 +2,10 @@
 A framework for analysing financial products in personalized contexts
 
 # Description
-financial-life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations allow a deeper understanding of financial plans and a better comparison of financial products (in particular loan conditions) for personal circumstances. 
+
+View [documentation](docs/README.md) for a more detailed introduction.
+
+financial-life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations allow a deeper understanding of financial plans and a better comparison of financial products (in particular loan conditions) for personal circumstances.
 
 financial_life was designed with the idea in mind that any line of code should contribute to the description of the problem you want to model. In spreadsheets, you would deal with a lot of auxiliary tables to accurately calculate the course of a loan influenced by incoming payments and generated interests. In financial_life, you just create your loan account with the given interests rate and you define the regular payments going into this loan account. That's it. Changes in the model and the exploration of different parameters within this model are therefore way easier to accomplish than in a spreadsheet-based simulation.
 
@@ -90,7 +93,7 @@ simulation.add_account(savings)
 simulation.add_regular(account, savings, 500, interval = 'monthly')
 
 # somewhere in the distant future we will make a payment to
-# the vendor of a car 
+# the vendor of a car
 simulation.add_unique(savings, 'Vendor of a car', 10000, '17.03.2019')
 ```
 
@@ -105,9 +108,9 @@ from financial_life.reports import html
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 result_folder = cwd + '/result'
-    
+
 html.report(simulation, style="standard", output_dir = result_folder)
-``` 
+```
 
 <img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
@@ -134,5 +137,5 @@ Or use pip
  	pip install financial_life
 
 You can checkout the example with
-	
+
 	python financial_life/examples/simple_examples.py
