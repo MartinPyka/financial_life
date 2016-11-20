@@ -195,7 +195,7 @@ simulation.add_regular(account, loan, 1500, interval = 'monthly')
 
 ## 3. Simulate
 
-The simulation is started for a given amount of time. This period is either defined through a give stop date or by a delta value.
+The simulation is started for a given amount of time. This period is either defined through a stop date or by a time interval delta. If both keywords are used the earlier stop date ends the simulation.
 
 ```python
 def simulate(self, date_stop = None, delta = None)
@@ -228,7 +228,7 @@ def simulate(self, date_stop = None, delta = None)
   </tr>
 </table>
 
-In order to simulate our model for 10 years, the code could look like this.
+In order to simulate our model for 10 years from now on, we use the delta-keyword.
 
 ```python
 simulation.simulate(delta = timedelta(days=365*10))
@@ -267,7 +267,7 @@ loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 simulation = a.Simulation(account, loan)
 
 simulation.add_regular('Income', account, 2000, interval = 'monthly')
-simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
+simulation.add_regular(account, loan, 1500, interval = 'monthly')
 
 simulation.simulate(delta = timedelta(days=365*10))
 simulation.plt_summary()
