@@ -26,6 +26,7 @@ simulation = a.Simulation(account, loan)
 # describe single or regular payments between accounts. note, that
 # a string can be used for external accounts that you don't want to model.
 simulation.add_regular('Income', account, 2000, interval = 'monthly')
+
 # you can also use lambda function to dynamically decide how much money
 # you would like to transfer
 simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
