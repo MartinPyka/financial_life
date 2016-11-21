@@ -3,11 +3,14 @@ A framework for analysing financial products in personalized contexts
 
 # Description
 
+financial_life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations allow a deeper understanding of financial plans and a better comparison of financial products (in particular loan conditions) for personal circumstances. With financial_life you can
+
+* analyse loan conditions and payment strategies
+* describe the properties of your financial plans with a few lines of code
+* create dynamic monetary flows between accounts for modeling more realistic scenarios
+* extend the code by controller functions (e.g. for modeling tax payments)
+
 View [documentation](docs/README.md) for a more detailed introduction.
-
-financial-life is an opinionated framework written in Python that allows to simulate monetary flows between different types of accounts. These simulations allow a deeper understanding of financial plans and a better comparison of financial products (in particular loan conditions) for personal circumstances.
-
-financial_life was designed with the idea in mind that any line of code should contribute to the description of the problem you want to model. In spreadsheets, you would deal with a lot of auxiliary tables to accurately calculate the course of a loan influenced by incoming payments and generated interests. In financial_life, you just create your loan account with the given interests rate and you define the regular payments going into this loan account. That's it. Changes in the model and the exploration of different parameters within this model are therefore way easier to accomplish than in a spreadsheet-based simulation.
 
 # Usage
 Say you want to model an account with regular income and payments to a loan
@@ -23,12 +26,8 @@ loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 # add these accounts to the simulation
 simulation = a.Simulation(account, loan)
 
-# describe single or regular payments between accounts. note, that
-# a string can be used for external accounts that you don't want to model.
+# describe monetary flows between accounts
 simulation.add_regular('Income', account, 2000, interval = 'monthly')
-
-# you can also use lambda function to dynamically decide how much money
-# you would like to transfer
 simulation.add_regular(account, loan, lambda: min(1500, -loan.account), interval = 'monthly')
 
 # simulate for ten years
@@ -37,7 +36,7 @@ simulation.simulate(delta = timedelta(days=365*10))
 # plot the data
 simulation.plt_summary()
 
-# print reports summarized in years
+# print reports summarized by years
 print(account.report.yearly())
 print(loan.report.yearly())
 
@@ -46,7 +45,7 @@ print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
 print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
 ```  
 
-The output will look like this one:
+The output will look like this:
 
 <img src="docs/img/simple_example_01_small.png" alt="Simple simulation in financial_life" width="800">
 
