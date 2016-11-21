@@ -18,7 +18,7 @@ Or use pip
 
 1. [The first simulation](01_first_simulation.md)
 2. [Using callables for dynamic changes](02_using_callables_for_dynamic_changes.md)
-3. Dependencies between accounts
+3. [Dependencies between accounts](03_dependencies_between_accounts.md)
 
 ## Developers guide
 
