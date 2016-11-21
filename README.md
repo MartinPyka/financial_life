@@ -106,9 +106,6 @@ You can also export the simulation to HTML to explore your model in the browser:
 ```python
 from financial_life.reports import html
 
-cwd = os.path.dirname(os.path.realpath(__file__))
-result_folder = cwd + '/result'
-
 html.report(simulation, style="standard", output_dir = result_folder)
 ```
 
@@ -116,7 +113,7 @@ html.report(simulation, style="standard", output_dir = result_folder)
 
 # Installation
 
-financial_life has been written in Python 3.4 and has not  been tested for Python 2.x.
+financial_life is written in Python 3.4 and has not been tested for Python 2.x.
 
 To get a working environment, simply do
 
