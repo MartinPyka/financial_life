@@ -122,8 +122,14 @@ def extract_data(semantic, *reports, color_theme = C_cold_colors, color_offset =
     c = []
     # create cost plots
     for j, r in enumerate(reports):
-        X = X + [[d.timestamp() for d in r.date]]
-        Y = Y + [[r.get(k) for k in r.semantics(semantic)]]
+        X = X + [[d.timestamp() for d in r.index]]
+        print('r',r)
+        print('Y', Y)
+        print('semantic', semantic)
+        l= r.semantics(semantic)
+        print('semantics', l)
+        print('r[k]', r[l[0]])
+        Y = Y + [[np.array(r[k]) for k in r.semantics(semantic)]]
         
         c = c + [colors[color_theme][j % no_colors][i+color_offset] for i, k in enumerate(r.semantics(semantic))]
     
@@ -137,7 +143,7 @@ def add_labels(semantic, *reports, color_theme = C_cold_colors, color_offset = 0
         for i, k in enumerate(r.semantics(semantic)):
             plot([], [], 
                  color=colors[color_theme][j % no_colors][i+color_offset], 
-                 label=r.name + ': ' + k,
+                 label=r._name + ': ' + k,
                  linewidth=10)
             
 def plot_stack_generic(X, Y, c, semantic, *reports, color_theme = C_cold_colors, color_offset = 0):

@@ -12,9 +12,9 @@ import warnings
 import logging
 
 # third-party libraries
+from pandas import Series, DataFrame
 
 # own libraries
-from financial_life.financing import Payment
 from financial_life.financing import PaymentList
 from financial_life.financing import Report
 from financial_life.financing import C_default_payment
@@ -264,16 +264,16 @@ class Simulation(object):
         return payed
     
     def make_report(self, from_acc, to_acc, value, kind, name, code, message):
-        self._report.append(
-                            date = self._current_date,
-                            from_acc = from_acc,
-                            to_acc = to_acc,
-                            value = value / 100,
-                            kind = kind,
-                            name = name,
-                            code = code,
-                            message = message
-                            )
+        self._report.append_report_data(
+                                        date = self._current_date,
+                                        from_acc = from_acc,
+                                        to_acc = to_acc,
+                                        value = value / 100,
+                                        kind = kind,
+                                        name = name,
+                                        code = code,
+                                        message = message
+                                        )
             
     def make_transfer(self, payment):
         """ Transfers money from one account to the other and tries to assure 
@@ -703,15 +703,15 @@ class Bank_Account(Account):
     def make_report(self, interest=0, input=0, output=0,
                     foreign_account = '', kind = '', description = ''):
         """ creates a report entry and resets some variables """
-        self._report.append(date = self._current_date, 
-                            account = self._caccount / 100,
-                            interest = float('%.2f' % (interest / 100)), 
-                            input = input / 100,
-                            output = output / 100,
-                            foreign_account = foreign_account,
-                            kind = kind,
-                            description = description
-                            )
+        self._report.append_report_data(date = self._current_date, 
+                                        account = self._caccount / 100,
+                                        interest = float('%.2f' % (interest / 100)), 
+                                        input = input / 100,
+                                        output = output / 100,
+                                        foreign_account = foreign_account,
+                                        kind = kind,
+                                        description = description
+                                        )
         
     def exec_interest_time(self):
         """ Does all things, when self.interest_time() returns true (like adding
@@ -876,15 +876,15 @@ class Loan(Account):
     def make_report(self, payment = 0, interest = 0,
                     foreign_account = '', kind = '', description = ''):
         """ creates a report entry and resets some variables """
-        self._report.append(
-                            date = self._current_date, 
-                            account = self._caccount / 100, 
-                            payment = payment / 100,
-                            interest = float('%.2f' % (interest / 100)),
-                            foreign_account = foreign_account,
-                            kind = kind,
-                            description = description
-                            )
+        self._report.append_report_data(
+                                        date = self._current_date, 
+                                        account = self._caccount / 100, 
+                                        payment = payment / 100,
+                                        interest = float('%.2f' % (interest / 100)),
+                                        foreign_account = foreign_account,
+                                        kind = kind,
+                                        description = description
+                                        )
 
     @property
     def account(self):
@@ -945,12 +945,11 @@ class Loan(Account):
         """ this is a hard return of transfer-money, in case the receiving side 
         rejected the transfer """
         self._caccount = int(self._caccount + money)
-        report = {'date': self._current_date,
-                  'account': self._caccount,
+        report = {'account': self._caccount,
                   'payment': money,
                   'kind': 'storno',
                   'description': 'transfer did not succeeded'}
-        self._report.append(**report)
+        self._report.append_report_data(date = self._current_date, **report)
         
     def start_of_day(self):
         """ Things that should happen on the start of the day, before any money
@@ -1015,11 +1014,11 @@ class Property(Account):
     
     def make_report(self):
         """ creates a report entry and resets some variables """
-        self._report.append(
-                            date = self._current_date, 
-                            account = self._caccount / 100,
-                            property_value = self._property_value / 100
-                            )
+        self._report.append_report_data(
+                                        date = self._current_date, 
+                                        account = self._caccount / 100,
+                                        property_value = self._property_value / 100
+                                        )
         
     def get_table_json(self, report):
         """ Creates a table for a given report """

@@ -13,6 +13,7 @@ from collections import Callable
 from tabulate import tabulate
 import numpy as np
 from numpy.core.numeric import result_type
+from pandas import Series, DataFrame
 
 # own libraries
 from financial_life.calendar_help import Bank_Date
@@ -219,7 +220,7 @@ class Status(object):
             return self._date
         return self._data.get(attr, default)
 
-class Report(object):
+class Report(DataFrame):
     """ A report is a collection of statuses with some additional
     functionallity in order to merge and plot reports. One key
     feature of report is that it can handle heterogenous types of
@@ -230,6 +231,8 @@ class Report(object):
                  format_date = "%d.%m.%Y",
                  precision = 'daily'
                  ):
+        super().__init__()
+        
         self._statuses = []
         self._keys = []    # list of all keys used so far
 
@@ -287,34 +290,12 @@ class Report(object):
             if key in values:
                 return semantic
         return ''
-
-    def append(self, status = None, date = None, **kwargs):
-        """ adds either an instance of status to the list or
-        data given to the append method as keyword arguments """
-        assert((status and not date) or (date and not status))
-
-        if date:
-            status = Status( Bank_Date.fromtimestamp(date.timestamp()), **kwargs )
-
-        if not isinstance(status, Status):
-            raise TypeError("status must be of type Status")
-
-        self._statuses.append(status)
-        # add potential new keys to the list
-        self._keys = list(set(self._keys) | set(status.keys()))
-
-    @property
-    def size(self):
-        """ Returns the number of status entries"""
-        return len(self._statuses)
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
+    
+    def append_report_data(self, date, **kwargs):
+        s = Series(kwargs,
+                   name = date
+                   )
+        self = self.append(s)
 
     @property
     def precision(self):
@@ -341,9 +322,9 @@ class Report(object):
         """ generic function for returning a report for certain
         intervals """
 
-        def add_data(data, status):
+        def add_data(data, series):
             """ add status data to existing dictionary """
-            for key, value in status.data.items():
+            for key, value in series.iteritems():
                 # for cumulative data, we need to add, for other we just
                 # need to take the latest value
                 if "cum" in self.semantics_of(key):
@@ -362,23 +343,23 @@ class Report(object):
                         )
         result._semantics = deepcopy(self._semantics)
 
-        while (i < len(self._statuses)):
+        while (i < len(self.index)):
             # get the value of the interval type, e.g. exact month or exact year
-            frame = self.get_from_date(self._statuses[i].date, interval)
+            frame = self.get_from_date(self.iloc[i].name, interval)
             # create a new dictionary and add the current status to it
-            data = add_data(defaultdict(int), self._statuses[i])
+            data = add_data(defaultdict(int), self.iloc[i])
             i += 1
             # iterate to the following statuses as long as frame equals the current value of the
             # the given interval type (e.g. as long as the month is the same)
-            while (i < len(self._statuses)) and (frame == self.get_from_date(self._statuses[i].date, interval)):
-                data = add_data(data, self._statuses[i])
+            while (i < len(self.index)) and (frame == self.get_from_date(self.iloc[i].name, interval)):
+                data = add_data(data, self.iloc[i])
                 i += 1
 
             # if the while loop ended because of i, we need to correct it again
-            if (i == len(self._statuses)):
-                result.append(date=self._statuses[i-1].date, **data)
+            if (i == len(self.index)):
+                result.append_report_data(date=self.iloc[i-1].name, **data)
             else:
-                result.append(date=self._statuses[i-1].date, **data)
+                result.append_report_data(date=self.iloc[i-1].name, **data)
 
         return result
 
@@ -387,8 +368,8 @@ class Report(object):
         represents a row of a table. This is used by the tabulate
         package for plotting tables. """
         records = []
-        for s in self._statuses:
-            data = [s.date.strftime(self._format_date)] + [s.get(key, '') for key in self._keys]
+        for s in self.iterrows():
+            data = [s.name.strftime(self._format_date)] + [value for _, value in s.iteritems()]
             records.append(data)
         return records
 
@@ -406,43 +387,13 @@ class Report(object):
                 # if this is a cumulative list, we need to calculate the sum
                 if '_cum' in sem:
                     for key in self._semantics[sem]:
-                        result += np.sum(self.get(key, num_only = True))
+                        result += np.sum(self[key])
                 # if abs, get only the last element
                 if '_abs' in sem:
                     for key in self._semantics[sem]:
-                        result += self.get(key, num_only = True)[-1]
+                        result += self[key][-1]
         return result
 
-    def __getitem__(self, key):
-        result = Report(format_date = self._format_date,
-                        precision = self._precision)
-        for s in self._statuses:
-            if key in s.keys():
-                result.append(date = s['date'], **{key: s[key]})
-        return result
-
-    def __getattr__(self, name):
-        result = [s.get(name, 'None') for s in self._statuses]
-        return result
-        if (name == 'date'):
-            return result
-        else:
-            return np.array(result)
-
-    def get(self, name, num_only = False):
-        replace = 0 if num_only else 'None'
-        result = [s.get(name, replace) for s in self._statuses]
-        return result
-        if (name == 'date'):
-            return result
-        else:
-            return np.array(result)
-
-    def __str__(self):
-        """ Prints all statuses in table view """
-        print(self.name)
-        records = self.table_rows()
-        return tabulate(records, headers=(['Date'] + self._keys), floatfmt=".2f")
 
 
 class Payment_Value(object):

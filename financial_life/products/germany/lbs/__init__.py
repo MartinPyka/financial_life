@@ -17,7 +17,7 @@ from decimal import *
 import numpy as np
 
 # own libraries
-from financial_life.financing import Report, Payments
+from financial_life.financing import Report
 from financial_life.financing import C_default_payment, id_generator
 from financial_life.financing.colors import colors
 from financial_life.financing import validate
@@ -202,8 +202,8 @@ class Bauspar(Account):
             self._phase = self.loan_phase
             agio = self._cdarlehen * self._tarif['agio']
             self._cdarlehen += agio
-            self._report.append(date = self._current_date,
-                                agio = (agio / 100))
+            self._report.append_report_data(date = self._current_date,
+                                            agio = (agio / 100))
         
     def loan_track_data(self, loan_interest, loan_insurance, payed):
         self._record['loan_interest'] += loan_interest
@@ -211,12 +211,12 @@ class Bauspar(Account):
         self._record['payments'] += payed
     
     def loan_make_report(self):
-        self._report.append(date = self._current_date,
-                            loan_interest = self._record['loan_interest'] / 100,
-                            insurance = self._record['insurance'] / 100,
-                            payments = self._record['payments'] / 100,
-                            loan = self._cdarlehen / 100,
-                            )
+        self._report.append_report_data(date = self._current_date,
+                                        loan_interest = self._record['loan_interest'] / 100,
+                                        insurance = self._record['insurance'] / 100,
+                                        payments = self._record['payments'] / 100,
+                                        loan = self._cdarlehen / 100,
+                                        )
         
         # set everything to zero
         self._record = dict.fromkeys(self._record, 0)        
@@ -285,15 +285,15 @@ class Bauspar(Account):
         self._record['entgelt'] += entgelt
         
     def zwischen_make_report(self):
-        self._report.append(date = self._current_date,
-                            account = self._caccount / 100,
-                            account_interest = self._record['account_interest'] / 100,
-                            loan_interest = self._record['loan_interest'] / 100,
-                            payments = self._record['payments'] / 100,
-                            entgelt = self._record['entgelt'] / 100,
-                            loan = self._cdarlehen / 100,
-                            points = self._punkte
-                            )
+        self._report.append_report_data(date = self._current_date,
+                                        account = self._caccount / 100,
+                                        account_interest = self._record['account_interest'] / 100,
+                                        loan_interest = self._record['loan_interest'] / 100,
+                                        payments = self._record['payments'] / 100,
+                                        entgelt = self._record['entgelt'] / 100,
+                                        loan = self._cdarlehen / 100,
+                                        points = self._punkte
+                                        )
         
         # set everything to zero
         self._record = dict.fromkeys(self._record, 0)
@@ -382,13 +382,13 @@ class Bauspar(Account):
         self._record['entgelt'] += entgelt
 
     def saving_make_report(self):
-        self._report.append(date = self._current_date,
-                            account = self._caccount / 100,
-                            account_interest = self._record['account_interest'] / 100,
-                            payments = self._record['payments'] / 100,
-                            entgelt = self._record['entgelt'] / 100,
-                            points = self._punkte
-                            )
+        self._report.append_report_data(date = self._current_date,
+                                        account = self._caccount / 100,
+                                        account_interest = self._record['account_interest'] / 100,
+                                        payments = self._record['payments'] / 100,
+                                        entgelt = self._record['entgelt'] / 100,
+                                        points = self._punkte
+                                        )
         
         # set everything to zero
         self._record = dict.fromkeys(self._record, 0)
