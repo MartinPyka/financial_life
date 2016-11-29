@@ -263,6 +263,11 @@ class Report(DataFrame):
             for k, items in key.items():
                 if k in self._semantics:
                     self._semantics[k] = items
+                    # add these columns to the dataframe
+                    for i in items:
+                        if k not in self.columns:
+                            self[i] = np.nan
+                            self[i] = self[i].astype(float)
                 else:
                     raise AttributeError('Key %s not in semantics' % k)
             return
@@ -273,11 +278,18 @@ class Report(DataFrame):
         if isinstance(key, list):
             self._semantics[semantics] = self._semantics[semantics] + key
             self._keys = list(set(self._keys) | set(key))
+            for k in key:
+                if k not in self.columns:
+                    self[k] = np.nan
+                    self[k] = self[k].astype(float)
             return
 
         if isinstance(key, str):
             self._semantics[semantics].append(key)
             self._keys = list(set(self._keys) | set((key,)))
+            if key not in self.columns:
+                self[key] = np.nan
+                self[key] = self[key].astype(float)
             return
 
     def semantics(self, semantic):
@@ -292,10 +304,8 @@ class Report(DataFrame):
         return ''
     
     def append_report_data(self, date, **kwargs):
-        s = Series(kwargs,
-                   name = date
-                   )
-        self = self.append(s)
+        print(date, kwargs)
+        self.loc[date] = kwargs
 
     @property
     def precision(self):
@@ -328,6 +338,8 @@ class Report(DataFrame):
                 # for cumulative data, we need to add, for other we just
                 # need to take the latest value
                 if "cum" in self.semantics_of(key):
+                    #print(value)
+                    #print(type(value))
                     data[key] += value
                 elif not self.semantics_of(key) is "none":
                     data[key] = value
