@@ -16,7 +16,7 @@ from financial_life.reports import html
 def dataframe_test():
     # create a private bank account and a loan 
     account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
-    #loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
+    loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
 
     # add these accounts to the simulation
     simulation = a.Simulation(account)
@@ -27,18 +27,15 @@ def dataframe_test():
     simulation.add_regular('Income', account, 2000, interval = 'monthly')
     # you can also use lambda function to dynamically decide how much money
     # you would like to transfer
-    simulation.add_regular(account, 'loan', 1500, interval = 'monthly')
+    simulation.add_regular(account, loan, 1500, interval = 'monthly')
     
     # simulate for ten years
-    print(simulation._payments._regular[0]['date_start'])
-    print(simulation._payments._regular[1]['date_start'])
-    simulation.simulate(delta = timedelta(days=10))
+    simulation.simulate(delta = timedelta(days=365))
     # plot the data
     #simulation.plt_summary()
     
     # print reports summarized in years
-    #print(account.report['interest'].dtype)
-    #print(account.report)
+    print(account.report)
     #print(account.report.yearly())
     #print(loan.report)
     

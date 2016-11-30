@@ -304,7 +304,11 @@ class Report(DataFrame):
         return ''
 
     def append_report_data(self, date, **kwargs):
-        self.loc[date] = kwargs
+        """ Appends a new line to the report. In order not to 
+        override existing dates and to keep them in order, we shift
+        multiple entries for the same day by microseconds """
+        microshift = [d.date() for d in self.index].count(date.date())
+        self.loc[date + timedelta(0,0,microshift)] = kwargs
 
     @property
     def precision(self):
