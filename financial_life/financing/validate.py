@@ -37,7 +37,7 @@ def valid_date(date):
     """ routine for making a date out of anything that the user might
     have given to the function """
     if date is None:
-        return Bank_Date.today()
+        return Bank_Date.combine(datetime.today().date(), datetime.min.time())
     if isinstance(date, Bank_Date):
         return date
     if isinstance(date, datetime):
@@ -55,18 +55,18 @@ def valid_stop_date(date):
         return valid_date(date)
     raise TypeError("Date must be at least from type datetime or callable")
 
-    
+
 def valid_name(name):
     if not name:
         name = id_generator(8)
     return name
-    
+
 def valid_date_stop(date_stop):
     """ checks, whether date_stop has a valid value """
     if not date_stop:
         date_stop = Bank_Date.max
     return date_stop
-    
+
 def valid_delta(delta):
     """ converts delta, if necessary, into a timedelta instance """
     if not delta:

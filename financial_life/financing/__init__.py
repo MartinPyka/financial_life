@@ -2,7 +2,7 @@
 reports """
 
 # standard libraries
-from datetime import datetime
+from datetime import datetime, timedelta
 from calendar import monthrange
 import warnings
 from copy import deepcopy
@@ -232,7 +232,7 @@ class Report(DataFrame):
                  precision = 'daily'
                  ):
         super().__init__()
-        
+
         self._statuses = []
         self._keys = []    # list of all keys used so far
 
@@ -302,7 +302,7 @@ class Report(DataFrame):
             if key in values:
                 return semantic
         return ''
-    
+
     def append_report_data(self, date, **kwargs):
         print(date, kwargs)
         self.loc[date] = kwargs
@@ -507,6 +507,10 @@ class PaymentList(object):
         self._uniques = []
         self._regular = []
 
+        # serves as unique identifier (is added as
+        # microsecond to each payment)
+        self._no_pays = 0
+
     @property
     def uniques(self):
         return self._uniques
@@ -537,13 +541,14 @@ class PaymentList(object):
                              Payment(
                                      from_acc = from_acc,
                                      to_acc = to_acc,
-                                     date = Bank_Date.fromtimestamp(date.timestamp()),
+                                     date = date + timedelta(0, 0, self._no_pays),
                                      name = name,
                                      kind = 'unique',
                                      payment = conv_payment,
                                      fixed = fixed
                                      )
                              )
+        self._no_pays += 1
 
         # sort the whole list with date as key
         self._uniques = sorted(self._uniques, key = lambda p: p['date'] )
@@ -579,13 +584,14 @@ class PaymentList(object):
                               'to_acc': to_acc,
                               'interval': interval,
                               'day' : day,
-                              'date_start': Bank_Date.fromtimestamp(date_start.timestamp()),
+                              'date_start': date_start + timedelta(0, 0, self._no_pays),
                               'date_stop': date_stop,
                               'payment': conv_payment,
                               'name' : name,
                               'fixed': fixed
                               }
                              )
+        self._no_pays += 1
 
     def clear_regular(self):
         """ Removes all regular payments """
