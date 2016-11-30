@@ -703,6 +703,7 @@ class Bank_Account(Account):
     def make_report(self, interest=0, input=0, output=0,
                     foreign_account = '', kind = '', description = ''):
         """ creates a report entry and resets some variables """
+        
         self._report.append_report_data(date = self._current_date, 
                                         account = self._caccount / 100,
                                         interest = float('%.2f' % (interest / 100)), 

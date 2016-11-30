@@ -65,8 +65,8 @@ def example2():
     simulation.plt_summary()
     
     # print reports summarized in years
-    print(account.report.yearly())
-    print(loan.report.yearly())
+    print(account.report)
+    print(loan.report)
     
     # analyze data
     print("Bank account: %.2f" % (account.account + savings.account))

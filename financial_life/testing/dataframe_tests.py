@@ -30,13 +30,15 @@ def dataframe_test():
     simulation.add_regular(account, 'loan', 1500, interval = 'monthly')
     
     # simulate for ten years
+    print(simulation._payments._regular[0]['date_start'])
+    print(simulation._payments._regular[1]['date_start'])
     simulation.simulate(delta = timedelta(days=10))
     # plot the data
     #simulation.plt_summary()
     
     # print reports summarized in years
     #print(account.report['interest'].dtype)
-    print(account.report)
+    #print(account.report)
     #print(account.report.yearly())
     #print(loan.report)
     
@@ -44,6 +46,7 @@ def dataframe_test():
     #print("Interests on bank account: %.2f" % sum(account.report.yearly().interest))
     #print("Interests on loan account: %.2f" % sum(loan.report.yearly().interest))
     
+    return account
 
 
 if __name__ == '__main__':

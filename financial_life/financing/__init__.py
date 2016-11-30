@@ -304,7 +304,6 @@ class Report(DataFrame):
         return ''
 
     def append_report_data(self, date, **kwargs):
-        print(date, kwargs)
         self.loc[date] = kwargs
 
     @property
