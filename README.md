@@ -111,6 +111,14 @@ html.report(simulation, style="standard", output_dir = result_folder)
 
 <img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
+You can analyse the reports as Pandas DataFrames as well:
+
+```python
+import pandas as pd
+
+account.report.yearly().as_df()
+```
+
 # Installation
 
 financial_life is written in Python 3.4 and has not been tested for Python 2.x.
