@@ -13,6 +13,7 @@ from collections import Callable
 from tabulate import tabulate
 import numpy as np
 from numpy.core.numeric import result_type
+import pandas as pd
 
 # own libraries
 from financial_life.calendar_help import Bank_Date
@@ -444,6 +445,10 @@ class Report(object):
         records = self.table_rows()
         return tabulate(records, headers=(['Date'] + self._keys), floatfmt=".2f")
 
+    def as_df(self):
+        """ Returns the report as pandas.DataFrame """
+        dates, data = list(zip(*((s._date, s._data) for s in self._statuses)))
+        return pd.DataFrame(list(data), index=dates)
 
 class Payment_Value(object):
     """ This is a class that represents a payment value. If the payment
