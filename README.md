@@ -111,12 +111,12 @@ html.report(simulation, style="standard", output_dir = result_folder)
 
 <img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
-You can analyse the reports as Pandas DataFrames as well:
+You can analyse the reports as [pandas](https://github.com/pandas-dev/pandas) DataFrame as well:
 
 ```python
 import pandas as pd
 
-account.report.as_df()
+account.report.as_df()    # Hello pandas
 ```
 
 # Installation
