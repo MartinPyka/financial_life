@@ -116,7 +116,7 @@ You can analyse the reports as Pandas DataFrames as well:
 ```python
 import pandas as pd
 
-account.report.yearly().as_df()
+account.report.as_df()
 ```
 
 # Installation
