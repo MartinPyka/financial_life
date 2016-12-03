@@ -20,6 +20,8 @@ from financial_life.calendar_help import Bank_Date
 from financial_life.financing.identity import id_generator
 from financial_life.financing import validate
 
+pd.set_option('display.width', 1000)
+
 # degrees of precision. the higher the number the more
 # precise is the category
 C_precisions = {'year' : 1.,

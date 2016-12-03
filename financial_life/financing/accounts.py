@@ -156,6 +156,11 @@ class Simulation(object):
     @property
     def report(self):
         return self._report
+    
+    def as_df(self):
+        df = self.report.as_df()
+        df = df[['from_acc', 'to_acc', 'value', 'kind', 'name', ]]
+        return df
 
     def get_report_jinja(self, interval="yearly"):
         """ creates a data-structure of the report data that can be used for
@@ -572,6 +577,9 @@ class Account(object):
     def report(self):
         return self._report
 
+    def as_df(self):
+        return self.report.as_df()    
+
     def report_time(self, date):
         """ returns true, if the requirements for a report are met """
         return True
@@ -721,6 +729,11 @@ class Bank_Account(Account):
                          kind = 'yearly interest'
                          )
         self._sum_interest = 0
+        
+    def as_df(self):
+        df = self.report.as_df()
+        df = df[['foreign_account', 'description', 'input', 'output', 'interest', 'account']]
+        return df
 
     def get_table_json(self, report):
         """ Creates a table for a given report """
@@ -844,6 +857,11 @@ class Loan(Account):
         self._interest_paydate = {'month': 12, 'day': 31}
 
         self.make_report()
+        
+    def as_df(self):
+        df = self.report.as_df()
+        df = df[['foreign_account', 'description', 'payment', 'interest', 'account']]
+        return df        
 
     def get_table_json(self, report):
         rows = []
