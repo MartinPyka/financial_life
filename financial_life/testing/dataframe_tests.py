@@ -35,7 +35,7 @@ def dataframe_test():
     #simulation.plt_summary()
     
     # print reports summarized in years
-    print(account.report)
+    #print(account.report)
     #print(account.report.yearly())
     #print(loan.report)
     
