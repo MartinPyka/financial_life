@@ -121,7 +121,7 @@ account.report.as_df()    # Hello pandas
 
 # Installation
 
-financial_life is written in Python 3.4 and has not been tested for Python 2.x.
+financial_life is available in version 0.9. It is written in Python 3.4 and has not been tested for Python 2.x.
 
 To get a working environment, simply do
 
