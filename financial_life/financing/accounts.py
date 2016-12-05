@@ -6,7 +6,6 @@ Created on 24.03.2016
 
 # standard libraries
 from datetime import datetime, timedelta
-from calendar import monthrange
 from collections import Callable
 import warnings
 import logging
@@ -14,7 +13,6 @@ import logging
 # third-party libraries
 
 # own libraries
-from financial_life.financing import Payment
 from financial_life.financing import PaymentList
 from financial_life.financing import Report
 from financial_life.financing import C_default_payment
@@ -227,7 +225,7 @@ class Simulation(object):
         date = validate.valid_date(date)
         self._payments.add_unique(from_acc, to_acc, payment, date, name, fixed)
 
-    def add_regular(self, from_acc, to_acc, payment, interval, date_start=datetime.min, day=1, name = '', date_stop = None, fixed = False):
+    def add_regular(self, from_acc, to_acc, payment, interval, date_start=datetime(1971,1,1), day=1, name = '', date_stop = None, fixed = False):
         """ Transfers money from one account to the other on regular basis
         date_stop can be a function of the form lambda x: x > datetime(...)
         If it returns true, the payment is stopped
