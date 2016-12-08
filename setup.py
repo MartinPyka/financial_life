@@ -14,7 +14,7 @@ except ImportError:
 
 skw = dict(
     name='financial_life',
-    version='0.8',
+    version='0.9.1',
     description='A framework for analysing financial products in personalized contexts',
     author='Martin Pyka',
     author_email='martin.pyka@gmail.com',
@@ -39,7 +39,7 @@ if have_setuptools is True:
 	skw['install_requires'] = [
 		'Jinja2>=2.7.2,<3',
 		'matplotlib>=1.3.1,<2',
-		'numpy>=1.11.2,<2',
+		'numpy>=1.8.1,<2',
 		'pandas>=0.18.1,<1',
 		'tabulate>=0.7.5,<1',
 	]
