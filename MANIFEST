@@ -3,10 +3,12 @@ setup.py
 financial_life/__init__.py
 financial_life/calendar_help/__init__.py
 financial_life/examples/__init__.py
+financial_life/examples/dependencies.py
 financial_life/examples/simple_examples.py
 financial_life/financing/__init__.py
 financial_life/financing/accounts.py
 financial_life/financing/colors.py
+financial_life/financing/identity.py
 financial_life/financing/plotting.py
 financial_life/financing/test_financing.py
 financial_life/financing/validate.py
