@@ -121,7 +121,7 @@ account.report.as_df()    # Hello pandas
 
 # Installation
 
-financial_life is written in Python 3.4 and has not been tested for Python 2.x.
+financial_life is available in version 0.9. It is written in Python 3.4 and has not been tested for Python 2.x.
 
 To get a working environment, simply do
 
@@ -144,3 +144,7 @@ Or use pip
 You can checkout the example with
 
 	python financial_life/examples/simple_examples.py
+	
+# Why financial_life
+
+financial_life was designed with the idea in mind that any line of code should contribute to the description of the problem you want to model. In spreadsheets, you would deal with a lot of auxiliary tables to accurately calculate the course of a loan influenced by incoming payments and generated interests. In financial_life, you just create your loan account with the given interests rate and you define the regular payments going into this loan account. That's it. Changes in the model and the exploration of different parameters within this model are therefore way easier to accomplish than in a spreadsheet-based simulation.
