@@ -132,6 +132,8 @@ To get a working environment, simply do
 	virtualenv venv
 	source venv/bin/activate
 	pip install -r requirements.txt
+	# test an example
+	python financial_life/examples/simple_examples.py
 
 For installing the package:
 
