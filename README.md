@@ -1,7 +1,17 @@
 # financial-life
 A framework for analysing financial products in personalized contexts
 
-Current version is: 0.9.1 (see [CHANGELOG.md](CHANGELOG.md))
+<table>
+<tr>
+	<td>
+	Latest Release
+	</td>
+	<td>
+	<img src="https://img.shields.io/pypi/v/financial_life.svg" alt="latest release" />
+	</td>
+</tr>
+<table>
+[CHANGELOG.md](CHANGELOG.md)
 
 # Description
 
@@ -132,6 +142,8 @@ To get a working environment, simply do
 	virtualenv venv
 	source venv/bin/activate
 	pip install -r requirements.txt
+	# test an example
+	python financial_life/examples/simple_examples.py
 
 For installing the package:
 
