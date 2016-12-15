@@ -183,18 +183,18 @@ class Status(object):
             raise TypeError("date must be from type datetime")
 
         self._date = date
-        self._data = kwargs
+        self._status = kwargs
         self._format = "%d.%m.%Y"
 
     def __str__(self):
         result = "Date: %s" % self._date.strftime(self._format) + '\n'
-        for key, value in self._data.iteritems():
+        for key, value in self._status.iteritems():
             result += ("%s: %s\n" % (key, str(value)))
         return result
 
     def keys(self):
         """ Returns a list of keys """
-        return self._data.keys()
+        return self._status.keys()
 
     @property
     def date(self):
@@ -205,13 +205,13 @@ class Status(object):
         return self._date.strftime(self._format)
 
     @property
-    def data(self):
-        return self._data
+    def status(self):
+        return self._status
 
     def __getitem__(self, key):
         if key == 'date':
             return self._date
-        return self._data[key]
+        return self._status[key]
 
     def __getattr__(self, name):
         return self.__getitem__(name)
@@ -220,7 +220,7 @@ class Status(object):
         """ Get attribute or default value from data-dictionary """
         if attr == 'date':
             return self._date
-        return self._data.get(attr, default)
+        return self._status.get(attr, default)
 
 class Report(object):
     """ A report is a collection of statuses with some additional
@@ -346,7 +346,7 @@ class Report(object):
 
         def add_data(data, status):
             """ add status data to existing dictionary """
-            for key, value in status.data.items():
+            for key, value in status.status.items():
                 # for cumulative data, we need to add, for other we just
                 # need to take the latest value
                 if "cum" in self.semantics_of(key):
@@ -449,7 +449,7 @@ class Report(object):
 
     def as_df(self):
         """ Returns the report as pandas.DataFrame """
-        dates, data = list(zip(*((s._date, s._data) for s in self._statuses)))
+        dates, data = list(zip(*((s.date, s.status) for s in self._statuses)))
         return pd.DataFrame(list(data), index=dates)
 
 class Payment_Value(object):
