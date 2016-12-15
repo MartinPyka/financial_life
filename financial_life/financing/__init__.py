@@ -179,10 +179,18 @@ class Status(object):
     at a particular date """
 
     def __init__(self, date, **kwargs):
+        """ Creates a new status object. Note, that all of kwargs
+        elements are written to _status, except 'data', which is
+        treated special, as it may contain dict-data again """
         if not isinstance(date, datetime):
             raise TypeError("date must be from type datetime")
 
         self._date = date
+        self._data = {}
+        
+        if 'data' in kwargs:
+            self._data = kwargs.pop('data')
+        
         self._status = kwargs
         self._format = "%d.%m.%Y"
 
