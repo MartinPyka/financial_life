@@ -18,11 +18,11 @@ class Test(unittest.TestCase):
 
     def setUp(self):
         """ Mostly taken from examples/simple_example.py """
-        account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account')
-        savings = a.Bank_Account(amount = 5000, interest = 0.013, name = 'Savings')
-        loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit')
+        account = a.Bank_Account(amount = 1000, interest = 0.001, name = 'Main account', date=datetime(2016,9, 1))
+        savings = a.Bank_Account(amount = 5000, interest = 0.013, name = 'Savings', date=datetime(2016,9, 1))
+        loan = a.Loan(amount = 100000, interest = 0.01, name = 'House Credit', date=datetime(2016,9, 1))
     
-        simulation = a.Simulation(account, savings, loan, name = 'Testsimulation')
+        simulation = a.Simulation(account, savings, loan, name = 'Testsimulation', date=datetime(2016,9, 1))
         simulation.add_regular(from_acc = 'Income',
                                to_acc = account,
                                payment = 2000,
@@ -72,8 +72,7 @@ class Test(unittest.TestCase):
 
     def testGeneral(self):
         interests = sum(self.account.report.yearly().interest)+sum(self.loan.report.yearly().interest)
-        self.assertTrue(abs(interests - (-3017.66)) < 0.00001)
-        pass
+        self.assertTrue(abs(interests - (-3086.08)) < 0.00001)
 
 
 if __name__ == "__main__":
