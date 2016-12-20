@@ -119,7 +119,8 @@ def iter_regular_month(regular, date_start = None):
                       name = regular['name'],
                       kind = 'regular',
                       payment = regular['payment'],
-                      fixed = regular['fixed']
+                      fixed = regular['fixed'],
+                      meta = regular['meta']
                       )
         i += 1
         current_date = date_start.add_month(i)
@@ -133,6 +134,7 @@ def iter_regular_year(regular, date_start = None):
                     this can be a date after regular['date_start']
     """
 
+    print(regular)
     if not date_start:
         date_start = regular['date_start']
     else:
@@ -158,7 +160,8 @@ def iter_regular_year(regular, date_start = None):
                       name = regular['name'],
                       kind = 'regular',
                       payment = regular['payment'],
-                      fixed = regular['fixed']
+                      fixed = regular['fixed'],
+                      meta = regular['meta']
                       )
 
         current_date = datetime(year = current_date.year + 1,
@@ -186,17 +189,17 @@ class Status(object):
             raise TypeError("date must be from type datetime")
 
         self._date = date
-        self._data = {}
-        
-        if 'data' in kwargs:
-            self._data = kwargs.pop('data')
-        
+        self._meta = {}
+
+        if 'meta' in kwargs:
+            self._meta = kwargs.pop('meta')
+
         self._status = kwargs
         self._format = "%d.%m.%Y"
 
     def __str__(self):
         result = "Date: %s" % self._date.strftime(self._format) + '\n'
-        for key, value in self._status.iteritems():
+        for key, value in self._status.items():
             result += ("%s: %s\n" % (key, str(value)))
         return result
 
@@ -215,6 +218,10 @@ class Status(object):
     @property
     def status(self):
         return self._status
+
+    @property
+    def meta(self):
+        return self._meta
 
     def __getitem__(self, key):
         if key == 'date':
@@ -492,7 +499,8 @@ class Payment(object):
     accounts can here be of type "Account" or str, which is an
     abstract account that always complies """
 
-    def __init__(self, from_acc, to_acc, date, name, kind, payment, fixed=True):
+    def __init__(self, from_acc, to_acc, date, name,
+                 kind, payment, fixed=True, meta={}):
         """ Initialization of Payment
         from_acc:      sending account
         to_acc:        receiving account
@@ -509,7 +517,8 @@ class Payment(object):
                      'name': name,
                      'kind': kind,
                      'payment': payment,
-                     'fixed': fixed
+                     'fixed': fixed,
+                     'meta': meta
                      }
 
     @property
@@ -545,6 +554,7 @@ class Payment(object):
                 'kind': self._data['kind'],
                 'payment': self._data['payment'].name,
                 'fixed': self._data['fixed'],
+                'meta': self._data['meta'],
                 }
 
     def __getitem__(self, key):
@@ -574,7 +584,8 @@ class PaymentList(object):
             not isinstance(payment, Callable)):
             raise TypeError("Payment must be int, float or a function")
 
-    def add_unique(self, from_acc, to_acc, payment, date, name = '', fixed = True):
+    def add_unique(self, from_acc, to_acc, payment,
+                   date, name = '', fixed = True, meta={}):
         """ adds a one-time payment to the list, optional give it
         a name """
         if not isinstance(date, datetime):
@@ -593,14 +604,17 @@ class PaymentList(object):
                                      name = name,
                                      kind = 'unique',
                                      payment = conv_payment,
-                                     fixed = fixed
+                                     fixed = fixed,
+                                     meta = meta
                                      )
                              )
 
         # sort the whole list with date as key
         self._uniques = sorted(self._uniques, key = lambda p: p['date'] )
 
-    def add_regular(self, from_acc, to_acc, payment, interval, date_start, day=1, name='', date_stop = None, fixed = True):
+    def add_regular(self, from_acc, to_acc, payment, interval,
+                    date_start, day=1, name='', date_stop = None,
+                    fixed = False, meta={}):
         """ Adds a regular payment to the list, with a given
         payment: amount to pay
         interval: 'monthly': every month
@@ -610,6 +624,9 @@ class PaymentList(object):
         day: day to start with
         date_start: start date of this payment
         name : optional name
+        fixed: only everything or nothing must be transfered (true)
+               or depending on the receiving account a smaller amount
+               can be transfered (false)
         """
         if not interval in C_interval.keys():
             raise ValueError("interval must be one of '" + '\',\''.join(C_interval))
@@ -635,7 +652,8 @@ class PaymentList(object):
                               'date_stop': date_stop,
                               'payment': conv_payment,
                               'name' : name,
-                              'fixed': fixed
+                              'fixed': fixed,
+                              'meta': meta
                               }
                              )
 

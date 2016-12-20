@@ -154,7 +154,7 @@ class Simulation(object):
     @property
     def report(self):
         return self._report
-    
+
     def as_df(self):
         df = self.report.as_df()
         df = df[['from_acc', 'to_acc', 'value', 'kind', 'name', ]]
@@ -219,13 +219,24 @@ class Simulation(object):
                              for i, a in enumerate(self.accounts)]
                 }
 
-    def add_unique(self, from_acc, to_acc, payment, date, name = '', fixed = False):
+    def add_unique(self, from_acc, to_acc, payment,
+                   date, name = '',
+                   fixed = False,
+                   meta = {}
+                   ):
         """ Transfers money from one account to the other """
         from_acc, to_acc = valid_account_type(from_acc, to_acc)
         date = validate.valid_date(date)
-        self._payments.add_unique(from_acc, to_acc, payment, date, name, fixed)
+        self._payments.add_unique(
+            from_acc, to_acc, payment, date, name, fixed, meta)
 
-    def add_regular(self, from_acc, to_acc, payment, interval, date_start=datetime(1971,1,1), day=1, name = '', date_stop = None, fixed = False):
+    def add_regular(self, from_acc, to_acc, payment, interval,
+                    date_start=datetime(1971,1,1),
+                    day=1, name = '',
+                    date_stop = None,
+                    fixed = False,
+                    meta = {}
+                    ):
         """ Transfers money from one account to the other on regular basis
         date_stop can be a function of the form lambda x: x > datetime(...)
         If it returns true, the payment is stopped
@@ -234,7 +245,9 @@ class Simulation(object):
         date_start = validate.valid_date(date_start)
         if date_stop is not None:
             date_stop = validate.valid_stop_date(date_stop)
-        self._payments.add_regular(from_acc, to_acc, payment, interval, date_start, day, name, date_stop, fixed)
+        self._payments.add_regular(
+            from_acc, to_acc, payment, interval,
+            date_start, day, name, date_stop, fixed, meta)
 
     def add_account(self, account):
         """ adds an account to the simulation and returns it to the
@@ -266,7 +279,8 @@ class Simulation(object):
             raise TypeError("payment must be int, float or Callable but is " + str(type(payment['payment'])))
         return payed
 
-    def make_report(self, from_acc, to_acc, value, kind, name, code, message):
+    def make_report(self, from_acc, to_acc, value, kind,
+                    name, code, message, meta):
         self._report.append(
                             date = self._current_date,
                             from_acc = from_acc,
@@ -275,7 +289,8 @@ class Simulation(object):
                             kind = kind,
                             name = name,
                             code = code,
-                            message = message
+                            message = message,
+                            meta = meta
                             )
 
     def make_transfer(self, payment):
@@ -305,7 +320,8 @@ class Simulation(object):
                                 kind = payment['kind'],
                                 name = payment['name'],
                                 code = C_transfer_NA,
-                                message = "Transfer with zero money will not be initiated"
+                                message = "Transfer with zero money will not be initiated",
+                                meta = payment['meta']
                                 )
                 return False
         except TypeError as e:
@@ -317,7 +333,8 @@ class Simulation(object):
                                 kind = payment['kind'],
                                 name = payment['name'],
                                 code = C_transfer_ERR,
-                                message = e.message()
+                                message = e.message(),
+                                meta = payment['meta']
                                 )
             return False
 
@@ -381,7 +398,8 @@ class Simulation(object):
                                     kind = payment['kind'],
                                     name = payment['name'],
                                     code = C_transfer_OK,
-                                    message = ''
+                                    message = '',
+                                    meta = payment['meta']
                                     )
                 return True
             else:
@@ -396,7 +414,8 @@ class Simulation(object):
                                     kind = payment['kind'],
                                     name = payment['name'],
                                     code = tm_receiver.code,
-                                    message = tm_receiver.message
+                                    message = tm_receiver.message,
+                                    meta = payment['meta']
                                     )
                 return False
         else:
@@ -410,7 +429,8 @@ class Simulation(object):
                                 kind = payment['kind'],
                                 name = payment['name'],
                                 code = tm_sender.code,
-                                message = tm_sender.message
+                                message = tm_sender.message,
+                                meta = payment['meta']
                                 )
             return False
 
@@ -576,7 +596,7 @@ class Account(object):
         return self._report
 
     def as_df(self):
-        return self.report.as_df()    
+        return self.report.as_df()
 
     def report_time(self, date):
         """ returns true, if the requirements for a report are met """
@@ -648,7 +668,7 @@ class Account(object):
             warnings.warn('Date is before start date of account.')
 
         self._current_date = date
-                
+
     def start_of_day(self):
         """ Things that should happen on the start of the day, before any money
         transfer happens """
@@ -727,7 +747,7 @@ class Bank_Account(Account):
                          kind = 'yearly interest'
                          )
         self._sum_interest = 0
-        
+
     def as_df(self):
         df = self.report.as_df()
         df = df[['foreign_account', 'description', 'input', 'output', 'interest', 'account']]
@@ -855,11 +875,11 @@ class Loan(Account):
         self._interest_paydate = {'month': 12, 'day': 31}
 
         self.make_report()
-        
+
     def as_df(self):
         df = self.report.as_df()
         df = df[['foreign_account', 'description', 'payment', 'interest', 'account']]
-        return df        
+        return df
 
     def get_table_json(self, report):
         rows = []
