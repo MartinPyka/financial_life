@@ -107,7 +107,8 @@ class TestRegular_Year_Payment(unittest.TestCase):
                          'date_stop': Bank_Date(2018, 3, 14),
                          'payment': 3000,
                          'name' : 'Test',
-                         'fixed': True
+                         'fixed': True,
+                         'meta': {}
                          }
         self.infinite = {'from_acc': 'Dummy',
                          'to_acc': 'Dummy',
@@ -117,7 +118,8 @@ class TestRegular_Year_Payment(unittest.TestCase):
                          'date_stop': Bank_Date.max,
                          'payment': 3000,
                          'name' : 'Test',
-                         'fixed': True
+                         'fixed': True,
+                         'meta': {}
                          }
         self.lastcal =  {'from_acc': 'Dummy',
                          'to_acc': 'Dummy',
@@ -127,7 +129,8 @@ class TestRegular_Year_Payment(unittest.TestCase):
                          'date_stop': Bank_Date(2017, 6, 15),
                          'payment': 3000,
                          'name' : 'Test',
-                         'fixed': True
+                         'fixed': True,
+                         'meta': {}
                          }
 
     def test_begin_payment_same_year(self):

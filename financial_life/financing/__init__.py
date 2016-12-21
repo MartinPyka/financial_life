@@ -410,6 +410,15 @@ class Report(object):
             records.append(data)
         return records
 
+    def with_meta(self):
+        """ Returns the table with meta-information """
+        print(self.name)
+        records = []
+        for s in self._statuses:
+            data = [s.date.strftime(self._format_date)] + [s.get(key, '') for key in self._keys] + [str(s._meta)]
+            records.append(data)
+        return tabulate(records, headers=(['Date'] + self._keys + ['Meta']), floatfmt=".2f")
+
     def sum_of(self, semantic):
         """
         Returns the sum of a given semantic, e.g.

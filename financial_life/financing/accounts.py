@@ -343,7 +343,8 @@ class Simulation(object):
                                                        account_str = payment['to_acc'].name,
                                                        payment = -money,
                                                        kind = payment['kind'],
-                                                       description = payment['name']
+                                                       description = payment['name'],
+                                                       meta = payment['meta']
                                                        )
 
         # if sending money succeeded, try the receiver side
@@ -368,7 +369,8 @@ class Simulation(object):
                                                           account_str = payment['from_acc'].name,
                                                           payment = money,
                                                           kind = payment['kind'],
-                                                          description = payment['name']
+                                                          description = payment['name'],
+                                                          meta = payment['meta']
                                                           )
             # if receiving succeeded, return success
             if tm_receiver.code == C_transfer_OK:
@@ -639,13 +641,13 @@ class Account(object):
             return self.get_table_json(report)
 
 
-    def payment_input(self, account_str, payment, kind, description):
+    def payment_input(self, account_str, payment, kind, description, meta):
         """ Input function for payments. This account is the receiver
         of a transfer. This function, if derived from,
         can account for special checks for input operations """
         return TransferMessage(C_transfer_OK, money = payment)
 
-    def payment_output(self, account_str, payment, kind, description):
+    def payment_output(self, account_str, payment, kind, description, meta):
         """ Output function for payments. This account is the sender
         of a transfer. This function, if derived from,
         can account for special checks for output operations """
@@ -726,7 +728,8 @@ class Bank_Account(Account):
 
     # overwriting function
     def make_report(self, interest=0, input=0, output=0,
-                    foreign_account = '', kind = '', description = ''):
+                    foreign_account = '', kind = '', description = '',
+                    meta = {}):
         """ creates a report entry and resets some variables """
         self._report.append(date = self._current_date,
                             account = self._caccount / 100,
@@ -735,7 +738,8 @@ class Bank_Account(Account):
                             output = output / 100,
                             foreign_account = foreign_account,
                             kind = kind,
-                            description = description
+                            description = description,
+                            meta = meta
                             )
 
     def exec_interest_time(self):
@@ -785,19 +789,19 @@ class Bank_Account(Account):
         return ((self._current_date.day == self._interest_paydate['day']) and
                 (self._current_date.month == self._interest_paydate['month']))
 
-    def payment_input(self, account_str, payment, kind, description):
+    def payment_input(self, account_str, payment, kind, description, meta):
         """ Input function for payments. This account is the receiver
         of a transfer. This function, if derived from,
         can account for special checks for input operations """
-        return self.payment_move(account_str, payment, kind, description, 'input')
+        return self.payment_move(account_str, payment, kind, description, meta, 'input')
 
-    def payment_output(self, account_str, payment, kind, description):
+    def payment_output(self, account_str, payment, kind, description, meta):
         """ Output function for payments. This account is the sender
         of a transfer. This function, if derived from,
         can account for special checks for output operations """
-        return self.payment_move(account_str, payment, kind, description, 'output')
+        return self.payment_move(account_str, payment, kind, description, meta, 'output')
 
-    def payment_move(self, account_str, payment, kind, description, move_type):
+    def payment_move(self, account_str, payment, kind, description, meta, move_type):
         """ in the base class, payment_input and payment_output have almost
         the same behavior. Only the type of reporting differs
 
@@ -811,7 +815,8 @@ class Bank_Account(Account):
         report = {'foreign_account': account_str,
                   move_type: payment,
                   'kind': kind,
-                  'description': description}
+                  'description': description,
+                  'meta': meta}
         self.make_report(**report)
         return TransferMessage(C_transfer_OK, money = payment)
 
@@ -909,7 +914,8 @@ class Loan(Account):
         return (self._caccount + self._sum_interest) >= 0.
 
     def make_report(self, payment = 0, interest = 0,
-                    foreign_account = '', kind = '', description = ''):
+                    foreign_account = '', kind = '', description = '',
+                    meta = {}):
         """ creates a report entry and resets some variables """
         self._report.append(
                             date = self._current_date,
@@ -918,7 +924,8 @@ class Loan(Account):
                             interest = float('%.2f' % (interest / 100)),
                             foreign_account = foreign_account,
                             kind = kind,
-                            description = description
+                            description = description,
+                            meta = meta
                             )
 
     @property
@@ -944,7 +951,7 @@ class Loan(Account):
                 (self._current_date.month == self._interest_paydate['month'])) or
                 (self._caccount > 0))
 
-    def payment_input(self, account_str, payment, kind, description):
+    def payment_input(self, account_str, payment, kind, description, meta):
         """ Input function for payments. This account is the receiver
         of a transfer. This function, if derived from,
         can account for special checks for input operations """
@@ -957,7 +964,8 @@ class Loan(Account):
             report = {'payment': payed,
                       'foreign_account': account_str,
                       'kind': kind,
-                      'description': description}
+                      'description': description,
+                      'meta': meta}
             self.make_report(**report)
         else:
             self._caccount = int(self._caccount + self._sum_interest + payed)
@@ -965,12 +973,13 @@ class Loan(Account):
                       'interest': self._sum_interest,
                       'foreign_account': account_str,
                       'kind': kind,
-                      'description': description + ' + Interests'}
+                      'description': description + ' + Interests',
+                      'meta': meta}
             self.make_report(**report)
             self._sum_interest = 0
         return TransferMessage(C_transfer_OK, money = payed)
 
-    def payment_output(self, account_str, payment, kind, description):
+    def payment_output(self, account_str, payment, kind, description, meta):
         """ Output function for payments. This account is the sender
         of a transfer. This function, if derived from,
         can account for special checks for output operations """
@@ -1072,13 +1081,13 @@ class Property(Account):
         return self._caccount / 100
 
 
-    def payment_input(self, account_str, payment, kind, description):
+    def payment_input(self, account_str, payment, kind, description, meta):
         """ Input function for payments. This account is the receiver
         of a transfer. This function, if derived from,
         can account for special checks for input operations """
         return TransferMessage(C_transfer_ERR, money = payment, message="Properties cannot be involved in transfers")
 
-    def payment_output(self, account_str, payment, kind, description):
+    def payment_output(self, account_str, payment, kind, description, meta):
         """ Output function for payments. This account is the sender
         of a transfer. This function, if derived from,
         can account for special checks for output operations """
