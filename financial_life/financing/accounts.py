@@ -150,6 +150,10 @@ class Simulation(object):
     @property
     def accounts(self):
         return self._accounts
+    
+    @property
+    def current_date(self):
+        return self._current_date
 
     @property
     def report(self):
@@ -527,11 +531,12 @@ class Account(object):
     - return_money
     """
 
-    def __init__(self, amount, interest, date=None, name = None):
+    def __init__(self, amount, interest, date=None, name = None, meta = {}):
 
         self._date_start = validate.valid_date(date)
         self._name = validate.valid_name(name)
-
+        self._meta = meta
+        
         # check for problems
         assert((isinstance(amount, int) or (isinstance(amount, float))))
         if interest > 1.:
@@ -555,6 +560,7 @@ class Account(object):
     @property
     def date(self):
         return self._date
+    
 
     @property
     def date_start(self):
@@ -568,6 +574,10 @@ class Account(object):
     def name(self, name):
         self._name = name
         self._report.name = self._name + ' - ' + str(self._date_start.strftime(C_format_date))
+        
+    @property
+    def meta(self):
+        return self._meta        
 
     @property
     def account(self):
@@ -702,11 +712,11 @@ class Bank_Account(Account):
     """ This is a normal bank account that can be used to manage income and
     outgoings within a normal household """
 
-    def __init__(self, amount, interest, date = None, name = None):
+    def __init__(self, amount, interest, date = None, name = None, meta = {}):
         """ Creates a bank account class """
         # call inherited method __init__
         super().__init__(
-            amount = amount, interest = interest, date = date, name = name)
+            amount = amount, interest = interest, date = date, name = name, meta = meta)
 
         self._report_input = 0
         self._report_output = 0
@@ -859,13 +869,13 @@ class Loan(Account):
     functionalities of account models
     """
 
-    def __init__(self, amount, interest, date = None, name = None):
+    def __init__(self, amount, interest, date = None, name = None, meta = {}):
         """
         Creates the data for a basic account model
         """
         # call inherited method __init__
         super().__init__(
-            amount = -amount, interest = interest, date = date, name = name)
+            amount = -amount, interest = interest, date = date, name = name, meta = meta)
 
         # reporting functionality
         self._report_payment = 0
@@ -1024,7 +1034,7 @@ class Property(Account):
     amount of property depending on the payments transfered to the loan class
     """
 
-    def __init__(self, property_value, amount, loan, date = None, name = None):
+    def __init__(self, property_value, amount, loan, date = None, name = None, meta = {}):
         """
         For a property with a given value (property_value), the current amount
         that is transfered to the owner (amount) is reflected by the amount of
@@ -1036,6 +1046,7 @@ class Property(Account):
 
         self._name = validate.valid_name(name)
         self._date_start = validate.valid_date(date)
+        self._meta = meta
 
         self._property_value = int(property_value * 100)
         self._account = int(amount*100)     # amount of money already invested
