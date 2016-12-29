@@ -399,6 +399,28 @@ class Report(object):
                 result.append(date=self._statuses[i-1].date, **data)
 
         return result
+    
+    def subset(self, lambda_func):
+        """ creates a subset of report based on lambda-function that is 
+        used within a list comprehension. The lambda function gets every
+        status element of report and returns either true (to be inlcuded
+        in subset) or false (excluded). This is a very generic way of
+        applying queries to the report in order to reduce its the report
+        to its requsted items.
+        Note, that this is not a deepcopy of the report. Therefore, the 
+        it is more appropriate to use it for reading data rather than
+        writing data.
+        """
+        if not isinstance(lambda_func, Callable):
+            raise TypeError('lambda_func must be of the form lambda status: True <or> False')
+        result = Report(name = self._name,
+                        format_date = self._format_date,
+                        precision = 'custom'
+                        )
+        result._semantics = self._semantics
+        result._keys = self._keys
+        result._statuses = [s for s in self._statuses if lambda_func(s)]
+        return result
 
     def table_rows(self):
         """ Creates a list of lists, where each inner list
@@ -470,6 +492,10 @@ class Report(object):
         print(self.name)
         records = self.table_rows()
         return tabulate(records, headers=(['Date'] + self._keys), floatfmt=".2f")
+    
+    def __iter__(self):
+        """ Iteratores through all statuses """
+        return self._statuses.__iter__()
 
     def as_df(self):
         """ Returns the report as pandas.DataFrame """

@@ -100,7 +100,7 @@ class Simulation(object):
     provides the framework in which dependencies between accounts and state-
     dependent changes of account-modi can be managed """
 
-    def __init__(self, *accounts, name = None, date = None):
+    def __init__(self, *accounts, name = None, date = None, meta = None):
         """ Simulations can be initialized with names, to make differentiate
         between different simulations """
         # check for errors in the input of accounts
@@ -112,6 +112,9 @@ class Simulation(object):
             self._name = 'Simulation ' + str(datetime.now())
         else:
             self._name = name
+            
+        # a simuation can also store meta information 
+        self._meta = meta
 
         self._report = Report(self._name)
         self._report.add_semantics('from_acc', 'none')
@@ -146,6 +149,10 @@ class Simulation(object):
     @name.setter
     def name(self, name):
         self._name = name
+        
+    @property
+    def meta(self):
+        return self._meta
 
     @property
     def accounts(self):

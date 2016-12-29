@@ -25,7 +25,25 @@ def controller_tax(s):
     # interests as well
     if ((s.current_date.month == 2) and 
        (s.current_date.day == 15)):
-        print('Taxtime')
+        # TODO: write test which compares the outcome of this functino based on
+        # the simulation class with the outcome of this function based on the 
+        # accoutn class
+        #account = s.accounts[0]
+        
+        # filter for all transactions that occured in the previous year
+        # and of type 'income'
+        income = s.report.subset(lambda st: (st.date.year == (s.current_date.year-1)) and 
+                                            (st.meta.get('type','') == 'income'))
+        
+        # using list comprehensins, we can easily calculate a few sums
+        m_income = sum(income.value)  
+        m_brutto = sum(status.meta['tax']['brutto'] for status in income)
+        m_paid = sum(status.meta['tax']['paid'] for status in income)
+        print('Income: %.2f' % m_income)
+        print('Brutto: %.2f' % m_brutto)
+        print('Paid: %.2f' % m_paid)
+        
+        
     
 
 def example_meta_controller():
@@ -49,7 +67,7 @@ def example_meta_controller():
                            meta={'type': 'income', 
                                  'tax': {
                                          'brutto': 2500, 
-                                         'tax_paid': 310,
+                                         'paid': 310,
                                          'insurance': 190
                                          }
                                 }
