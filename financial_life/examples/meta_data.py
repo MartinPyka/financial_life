@@ -13,6 +13,7 @@ from matplotlib.pyplot import show
 # own libraries
 from financial_life.financing import accounts as a
 from financial_life.reports import html
+from financial_life.tax import germany as tax_ger
 
 
 def controller_tax(s):
@@ -27,22 +28,30 @@ def controller_tax(s):
        (s.current_date.day == 15)):
         # TODO: write test which compares the outcome of this functino based on
         # the simulation class with the outcome of this function based on the 
-        # accoutn class
-        #account = s.accounts[0]
+        # account class for payments
+        account = s.accounts[0]
         
         # filter for all transactions that occured in the previous year
         # and of type 'income'
-        income = s.report.subset(lambda st: (st.date.year == (s.current_date.year-1)) and 
-                                            (st.meta.get('type','') == 'income'))
+        income_report = s.report.subset(lambda st: (st.date.year == (s.current_date.year-1)) and 
+                                                   (st.meta.get('type','') == 'income'))
         
         # using list comprehensins, we can easily calculate a few sums
-        m_income = sum(income.value)  
-        m_brutto = sum(status.meta['tax']['brutto'] for status in income)
-        m_paid = sum(status.meta['tax']['paid'] for status in income)
-        print('Income: %.2f' % m_income)
+        #m_income = sum(income.value)  
+        m_brutto = sum(payment.meta['tax']['brutto'] for payment in income_report)
+        m_paid = sum(payment.meta['tax']['paid'] for payment in income_report)
         print('Brutto: %.2f' % m_brutto)
         print('Paid: %.2f' % m_paid)
-        
+        m_tax, m_tax_percentage = tax_ger.tax_to_pay(2016, m_brutto)
+        print('Tax / Per: %f / %f' % (m_tax, m_tax_percentage))
+        m_diff = m_paid - m_tax
+        print('Differences: %f' % m_diff)
+        s.add_unique('State', account, m_diff, 
+                     date = s.current_date + timedelta(days=1),
+                     name = 'Tax',
+                     fixed = True
+                     )
+        print(' ')
         
     
 

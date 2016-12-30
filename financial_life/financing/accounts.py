@@ -240,6 +240,7 @@ class Simulation(object):
         date = validate.valid_date(date)
         self._payments.add_unique(
             from_acc, to_acc, payment, date, name, fixed, meta)
+        self.update_payment_iterators()
 
     def add_regular(self, from_acc, to_acc, payment, interval,
                     date_start=datetime(1971,1,1),
@@ -259,6 +260,21 @@ class Simulation(object):
         self._payments.add_regular(
             from_acc, to_acc, payment, interval,
             date_start, day, name, date_stop, fixed, meta)
+        self.update_payment_iterators()
+        
+    def update_payment_iterators(self):
+        """ Whenever a new payment is added via add_unique or add_regular,
+        this function is triggered to update the payment iterator. This is 
+        necessary, as payments could be dynamically added during the 
+        simulation as well """
+        self._payments_iter = self._payments.payment(self._current_date)
+
+        try:
+            self._next_pay = next(self._payments_iter, C_default_payment)
+        except StopIteration:
+            # if there are no payments, create a date for a payment
+            # that lies in the distant future
+            self._next_pay = [{'date': Bank_Date.max}]
 
     def add_account(self, account):
         """ adds an account to the simulation and returns it to the

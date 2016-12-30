@@ -704,7 +704,7 @@ class PaymentList(object):
         # creates for each item an iterator that returns just this
         # item. this list is later on amended by iterators for regular
         # payments
-        iters = [iter([u]) for u in self._uniques]
+        iters = [iter([u]) for u in self._uniques if u['date']>= start_date]
         for r in self._regular:
             # creates an iterator based on the interval in r
             iters.append(C_interval[r['interval']](r, start_date))
