@@ -40,17 +40,32 @@ def controller_tax(s):
         #m_income = sum(income.value)  
         m_brutto = sum(payment.meta['tax']['brutto'] for payment in income_report)
         m_paid = sum(payment.meta['tax']['paid'] for payment in income_report)
-        print('Brutto: %.2f' % m_brutto)
-        print('Paid: %.2f' % m_paid)
-        m_tax, m_tax_percentage = tax_ger.tax_to_pay(2016, m_brutto)
-        print('Tax / Per: %f / %f' % (m_tax, m_tax_percentage))
+        
+        loans = [a for a in s.accounts if a.meta.get('tax', {}).get('outcome','') == 'yearly_interests']
+        interests_reports = [loan.report.subset(lambda st: st.date.year == (s.current_date.year-1)) for loan in loans]
+        m_interests = sum(sum(report.interest) for report in interests_reports)                
+        
+        # as interests for loans are negative, we effectively
+        # subtract the payed interests from the brutto we earned in the last year
+        m_tax_relevant_money = m_brutto + m_interests
+        # now, we apply german tax rules from 2016 to the tax-relevant money
+        m_tax, m_tax_percentage = tax_ger.tax_to_pay(2016, m_tax_relevant_money)
+        # this is the money we either receive from the state (positive value
+        # or we need to pay (negative value)
         m_diff = m_paid - m_tax
-        print('Differences: %f' % m_diff)
+        
         s.add_unique('State', account, m_diff, 
                      date = s.current_date + timedelta(days=1),
                      name = 'Tax',
                      fixed = True
                      )
+        
+        print('Brutto: %.2f' % m_brutto)
+        print('Interests: %.2f' % m_interests)
+        print('Tax relevant money: %.2f' % m_tax_relevant_money)
+        print('Paid: %.2f' % m_paid)
+        print('Tax / Per: %f / %f' % (m_tax, m_tax_percentage))
+        print('Differences: %f' % m_diff)
         print(' ')
         
     
@@ -91,7 +106,7 @@ def example_meta_controller():
 
     # print reports summarized in years
     print(account.report.with_meta())
-    #print(simulation.report.with_meta())
+    #print(loan.report.with_meta())
     return simulation
 
 if __name__ == '__main__':
