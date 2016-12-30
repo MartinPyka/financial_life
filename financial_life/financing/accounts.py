@@ -769,15 +769,15 @@ class Bank_Account(Account):
         """ Input function for payments. This account is the receiver
         of a transfer. This function, if derived from,
         can account for special checks for input operations """
-        return self.payment_move(account_str, payment, kind, description, 'input')
+        return self.payment_move(account_str, payment, kind, description)
 
     def payment_output(self, account_str, payment, kind, description):
         """ Output function for payments. This account is the sender
         of a transfer. This function, if derived from,
         can account for special checks for output operations """
-        return self.payment_move(account_str, payment, kind, description, 'output')
+        return self.payment_move(account_str, payment, kind, description)
 
-    def payment_move(self, account_str, payment, kind, description, move_type):
+    def payment_move(self, account_str, payment, kind, description):
         """ in the base class, payment_input and payment_output have almost
         the same behavior. Only the type of reporting differs
 
@@ -786,6 +786,10 @@ class Bank_Account(Account):
         kind : whether this is a regular payment or a unique one
         description: description of the payment (usually its name)
         move_type: "input" or "output" for indicating the direction of movement """
+
+        move_type = 'input'
+        if payment < 0:
+            move_type = 'output'
 
         self._caccount = int(self._caccount + payment)
         report = {'foreign_account': account_str,
