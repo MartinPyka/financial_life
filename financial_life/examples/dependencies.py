@@ -16,6 +16,9 @@ from matplotlib.pyplot import show
 
 def dependencies():
     loan = a.Loan(200000, 0.0185, name = 'Credit' )
+    
+    # the class property defines a dependency on loan. When loan
+    # decreases, the house-property increases
     house = a.Property(200000, 0, loan, name='House')
 
     simulation = a.Simulation(loan, house)
