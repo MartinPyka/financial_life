@@ -230,7 +230,7 @@ class Status(object):
 
     def __getattr__(self, name):
         return self.__getitem__(name)
-
+    
     def get(self, attr, default):
         """ Get attribute or default value from data-dictionary """
         if attr == 'date':
@@ -477,6 +477,9 @@ class Report(object):
             return result
         else:
             return np.array(result)
+        
+    def __len__(self):
+        return len(self._statuses)        
 
     def get(self, name, num_only = False):
         replace = 0 if num_only else 'None'
@@ -730,6 +733,6 @@ class PaymentList(object):
 
 class Currency():
     """ Standard class for currencies to assure correct computing
-    of numbers """
+    of numbers. Right now this class is not in use """
     def __init__(self, value, digits = 2):
         self._value = int(value * (10**digits))
