@@ -23,8 +23,6 @@ def controller_tax(s):
     # interests as well
     if ((s.current_date.month == 2) and 
        (s.current_date.day == 15)):
-        # TODO: write test which compares the outcome of this function based on
-        # the simulation class with the outcome of this function based on the 
         # account class for payments
         account = s.accounts[0]
         

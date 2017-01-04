@@ -183,7 +183,7 @@ class Status(object):
 
     def __init__(self, date, **kwargs):
         """ Creates a new status object. Note, that all of kwargs
-        elements are written to _status, except 'data', which is
+        elements are written to _status, except 'meta', which is
         treated special, as it may contain dict-data again """
         if not isinstance(date, datetime):
             raise TypeError("date must be from type datetime")
