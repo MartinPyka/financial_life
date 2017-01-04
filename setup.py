@@ -14,7 +14,7 @@ except ImportError:
 
 skw = dict(
     name='financial_life',
-    version='0.9.1',
+    version='0.9.2',
     description='A framework for analysing financial products in personalized contexts',
     author='Martin Pyka',
     author_email='martin.pyka@gmail.com',
