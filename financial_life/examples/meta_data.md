@@ -45,4 +45,21 @@ simulation.add_controller(controller_tax)
 
 With `account.report.with_meta()` or `simulation.report.with_meta()` you can make these information visible, when you print the report.
 
+The result will look like this:
+```
+Main account
+Date        description    kind               interest    input  foreign_account      account    output  Meta
+----------  -------------  ---------------  ----------  -------  -----------------  ---------  --------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+01.09.2016                                        0.00     0.00                       1000.00      0.00  {}
+01.09.2016                 regular                0.00  2000.00  Income               3000.00      0.00  {'type': 'income', 'tax': {'insurance': 190, 'paid': 310, 'brutto': 2500}}
+01.09.2016                 regular                0.00     0.00  House Credit         1500.00  -1500.00  {}
+01.10.2016                 regular                0.00  2000.00  Income               3500.00      0.00  {'type': 'income', 'tax': {'insurance': 190, 'paid': 310, 'brutto': 2500}}
+01.10.2016                 regular                0.00     0.00  House Credit         2000.00  -1500.00  {}
+01.11.2016                 regular                0.00  2000.00  Income               4000.00      0.00  {'type': 'income', 'tax': {'insurance': 190, 'paid': 310, 'brutto': 2500}}
+01.11.2016                 regular                0.00     0.00  House Credit         2500.00  -1500.00  {}
+01.12.2016                 regular                0.00  2000.00  Income               4500.00      0.00  {'type': 'income', 'tax': {'insurance': 190, 'paid': 310, 'brutto': 2500}}
+01.12.2016                 regular                0.00     0.00  House Credit         3000.00  -1500.00  {}
+31.12.2016                 yearly interest        0.75     0.00                       3000.75      0.00  {}
+01.01.2017                 regular                0.00  2000.00  Income               5000.75      0.00  {'type': 'income', 'tax': {'insurance': 190, 'paid': 310, 'brutto': 2500}}
+```
 See the full example [here](meta_data.py).
