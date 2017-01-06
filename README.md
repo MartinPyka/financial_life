@@ -24,7 +24,7 @@ financial_life is an opinionated framework written in Python that allows to simu
 
 View [documentation](docs/README.md) for a more detailed introduction.
 
-# Usage
+# Example
 Say you want to model an account with regular income and payments to a loan
 
 ```python
@@ -131,7 +131,7 @@ import pandas as pd
 account.report.as_df()    # Hello pandas
 ```
 
-Here are more examples. financial_life supports:
+[Here](financial_life/examples/README.md) are more examples. financial_life supports:
 * [dependencies between accounts](financial_life/examples/dependencies.py), e.g. to model how the ownership of a property rises when the loan decreases
 * [meta-data](financial_life/examples/meta_data.md), e.g. for writing tax-calculations, which require additional knowledge about your payments
 * [controller-functions](financial_life/examples/meta_data.md) for dynamic changes of the simulation properties during simulation
