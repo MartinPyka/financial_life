@@ -17,7 +17,7 @@ loan = a.Loan(200000, 0.0185, name = 'Credit' )
 house = a.Property(200000, 0, loan, name='House')
 ```
 
-The value of `house` will becomes bigger when the value of `loan` decreases. Check it out!
+The value of `house` will becomes bigger when the value of `loan` decreases. See also more information about this construct in the [documentation](../../docs/03_dependencies_between_accounts.md).
 
 ### meta_data.py
 
