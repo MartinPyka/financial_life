@@ -797,22 +797,22 @@ class Bank_Account(Account):
             header = ['date', 'from', 'description', 'input', 'output', 'interest', 'account']
 
             for status in report._statuses:
-                item = [status.strdate, status._data['foreign_account'],
-                    status._data['description'],
-                    '%.02f EUR' % status._data['input'],
-                    '%.02f EUR' % status._data['output'],
-                    '%.02f EUR' % status._data['interest'],
-                    '%.02f EUR' % status._data['account']]
+                item = [status.strdate, status._status['foreign_account'],
+                    status._status['description'],
+                    '%.02f EUR' % status._status['input'],
+                    '%.02f EUR' % status._status['output'],
+                    '%.02f EUR' % status._status['interest'],
+                    '%.02f EUR' % status._status['account']]
                 rows.append(item)
         else:
             header = ['date', 'input', 'output', 'interest', 'account']
 
             for status in report._statuses:
                 item = [status.strdate,
-                    '%.02f EUR' % status._data['input'],
-                    '%.02f EUR' % status._data['output'],
-                    '%.02f EUR' % status._data['interest'],
-                    '%.02f EUR' % status._data['account']]
+                    '%.02f EUR' % status._status['input'],
+                    '%.02f EUR' % status._status['output'],
+                    '%.02f EUR' % status._status['interest'],
+                    '%.02f EUR' % status._status['account']]
                 rows.append(item)
 
         return {'header': header, 'rows': rows}
@@ -929,19 +929,19 @@ class Loan(Account):
             header = ['date', 'from', 'description', 'payment', 'interest', 'account']
             for status in report._statuses:
                 item = [status.strdate,
-                        status._data['foreign_account'],
-                        status._data['description'],
-                        '%.02f EUR' % status._data['payment'],
-                        '%.02f EUR' % status._data['interest'],
-                        '%.02f EUR' % status._data['account']]
+                        status._status['foreign_account'],
+                        status._status['description'],
+                        '%.02f EUR' % status._status['payment'],
+                        '%.02f EUR' % status._status['interest'],
+                        '%.02f EUR' % status._status['account']]
                 rows.append(item)
         else:
             header = ['date', 'payment', 'interest', 'account']
             for status in report._statuses:
                 item = [status.strdate,
-                        '%.02f EUR' % status._data['payment'],
-                        '%.02f EUR' % status._data['interest'],
-                        '%.02f EUR' % status._data['account']]
+                        '%.02f EUR' % status._status['payment'],
+                        '%.02f EUR' % status._status['interest'],
+                        '%.02f EUR' % status._status['account']]
                 rows.append(item)
         return {'header': header, 'rows': rows}
 
@@ -1109,7 +1109,7 @@ class Property(Account):
         rows = []
         for status in report._statuses:
             item = [status.strdate,
-                    '%.02f' % status._data['account']
+                    '%.02f' % status._status['account']
                     ]
             rows.append(item)
 

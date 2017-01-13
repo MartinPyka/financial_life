@@ -134,7 +134,6 @@ def iter_regular_year(regular, date_start = None):
                     this can be a date after regular['date_start']
     """
 
-    print(regular)
     if not date_start:
         date_start = regular['date_start']
     else:
