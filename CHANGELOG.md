@@ -1,4 +1,7 @@
-# 0.9.2 (05.01.2016)
+# 0.9.3 (13.01.2017)
+* changed some bugs for rendering HTML content
+
+# 0.9.2 (05.01.2017)
 * financial_life now supports meta-data for account objects and payments
 
 # 0.9.1
