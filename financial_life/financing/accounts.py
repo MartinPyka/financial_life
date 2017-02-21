@@ -1067,9 +1067,18 @@ class Property(Account):
         that is transfered to the owner (amount) is reflected by the amount of
         money that has been transfered to the loan. Loan must here of class
         loan
+        property_value : value of the property 
+        amount         : amount of money that represents the ownership. if 
+                         amount=property_value, the property totally belongs to the owner, if
+                         amount<property_value, the property partly belongs to the loan holder
+        loan           : object of type loan, that is linked to this property
+        date           : date, for which this property starts to exist
+        name           : name of this property
+        meta           : meta-information        
         """
+        
         assert isinstance(loan, Loan), 'loan must be of type Loan, but is in fact of type ' + str(type(loan))
-        assert property_value > amount, 'property_value must be greater than amount'
+        assert property_value >= amount, 'property_value must be greater than amount'
 
         self._name = validate.valid_name(name)
         self._date_start = validate.valid_date(date)
@@ -1085,11 +1094,6 @@ class Property(Account):
 
         self._report.add_semantics('account', 'saving_abs')
         self._report.add_semantics('property_value', 'none')
-        #self._report.add_semantics('interest', 'cost_cum')
-        #self._report.add_semantics('payment', 'debtpayment_cum')
-        #self._report.add_semantics('foreign_account', 'none')
-        #self._report.add_semantics('kind', 'none')
-        #self._report.add_semantics('description', 'none')
 
         self._current_date = self._date_start
 
