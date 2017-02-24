@@ -565,17 +565,22 @@ class Account(object):
         if interest > 1.:
             interest = interest / 100.
 
+        
+        ## generic variables, which are basically used in any class ##
+        ## that inherits from account                               ##
+        
         # setting up the report and the semantics
         self._report = Report(name = self._name)
 
-        self._account = int(amount * 100)
-        self._interest = interest
+        self._account = int(amount * 100)               # amount of money to start with
+        self._interest = interest                       # interest rate
 
+        self._current_date = self._date_start           # current date of the simulation
+        self._caccount = self._account                  # current account, this variable
+                                                        # is used in all subclasses
+        
+        # sum helper variables for interest calculation and keep
         self._sum_interest = 0
-        self._day = -1
-        self._current_date = self._date_start
-        self._caccount = self._account
-        self._next_pay = None
 
     def __str__(self):
         return self._name
