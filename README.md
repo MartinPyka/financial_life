@@ -11,6 +11,7 @@ A framework for analysing financial products in personalized contexts
 	</td>
 </tr>
 <table>
+
 [CHANGELOG.md](CHANGELOG.md)
 
 # Description
@@ -123,12 +124,15 @@ html.report(simulation, style="standard", output_dir = result_folder)
 
 <img src="docs/img/html_summary_01.png" alt="Simple simulation in financial_life" width="800" height="407">
 
-You can analyse the reports as [pandas](https://github.com/pandas-dev/pandas) DataFrame as well:
+You can analyse the reports as [pandas](https://github.com/pandas-dev/pandas) DataFrame as well and export it to excel:
 
 ```python
 import pandas as pd
+from financial_life.reports import excel
 
 account.report.as_df()    # Hello pandas
+excel.report(simulation, filename='reports.xls')  # explore the results in excel
+
 ```
 
 [Here](financial_life/examples/README.md) are more examples. financial_life supports:
