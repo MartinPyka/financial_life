@@ -14,7 +14,7 @@ except ImportError:
 
 skw = dict(
     name='financial_life',
-    version='0.9.3',
+    version='0.9.4',
     description='A framework for analysing financial products in personalized contexts',
     author='Martin Pyka',
     author_email='martin.pyka@gmail.com',
@@ -42,6 +42,7 @@ if have_setuptools is True:
 		'numpy>=1.8.1,<2',
 		'pandas>=0.18.1,<1',
 		'tabulate>=0.7.5,<1',
+        'xlwt>=1.2.0',
 	]
 
 setup(**skw)
