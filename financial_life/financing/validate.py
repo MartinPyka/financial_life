@@ -22,6 +22,8 @@ date_formats = [
                 '%d.%m.%y',
                 '%m/%d/%Y',
                 '%m/%d/%y',
+                '%Y-%m-%d',
+                '%y-%m-%d',
                 ]
 
 def parse_datestring(datestr):
