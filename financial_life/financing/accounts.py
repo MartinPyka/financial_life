@@ -451,7 +451,6 @@ class Simulation(object):
             # if an error occured on the sending side, report this and return false
             logger.debug("make_transfer: sending code is not OK")
             self.make_report(
-                                date = self._current_date,
                                 from_acc = payment['from_acc'],
                                 to_acc = payment['to_acc'],
                                 value = money,
@@ -565,7 +564,6 @@ class Account(object):
         if interest > 1.:
             interest = interest / 100.
 
-        
         ## generic variables, which are basically used in any class ##
         ## that inherits from account                               ##
         
