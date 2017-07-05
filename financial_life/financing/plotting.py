@@ -71,46 +71,46 @@ def summary_img(*reports, target = './', figsize = (10, 5), dpi = 100, prefix=''
     fig = figure(figsize = figsize)
     plot_stack_abs('saving_abs', *reports, color_theme = C_warm_colors, color_offset = 0)
     title('Wealth')
-    fig.savefig(target + prefix + 'wealth.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'wealth.png', dpi = dpi)
     plt.close(fig)
-    data['img_wealth'] = target + prefix + 'wealth.jpg'
+    data['img_wealth'] = target + prefix + 'wealth.png'
     
     fig = figure(figsize = figsize)
     plot_stack_abs('debt_abs', *reports, color_theme = C_cold_colors, color_offset = 0)
     title('Debts')
-    fig.savefig(target + prefix + 'debts.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'debts.png', dpi = dpi)
     plt.close(fig)
-    data['img_debts'] = target + prefix + 'debts.jpg'
+    data['img_debts'] = target + prefix + 'debts.png'
     
     fig = figure(figsize = figsize)
     plot_stack_mult_abs(['input_cum', 'output_cum'], *reports, 
                         color_themes = [C_warm_colors, C_cold_colors], 
                         color_offset = 1)
     title('Input and output')
-    fig.savefig(target + prefix + 'io_money.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'io_money.png', dpi = dpi)
     plt.close(fig)
-    data['img_io_money'] = target + prefix + 'io_money.jpg'
+    data['img_io_money'] = target + prefix + 'io_money.png'
 
     fig = figure(figsize = figsize)
     plot_stack_abs('debtpayment_cum', *reports, color_offset = 1)
     title('Yearly payments')
-    fig.savefig(target + prefix + 'debtpayment.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'debtpayment.png', dpi = dpi)
     plt.close(fig)
-    data['img_debtpayment'] = target + prefix + 'debtpayment.jpg'
+    data['img_debtpayment'] = target + prefix + 'debtpayment.png'
     
     fig = figure(figsize = figsize)
     plot_stack_cum('win_cum', *reports, color_theme = C_warm_colors, color_offset = 2)
     title('Cumulated win')
-    fig.savefig(target + prefix + 'win_cum.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'win_cum.png', dpi = dpi)
     plt.close(fig)
-    data['img_win_cum'] = target + prefix + 'win_cum.jpg'
+    data['img_win_cum'] = target + prefix + 'win_cum.png'
     
     fig = figure(figsize = figsize)
     plot_stack_cum('cost_cum', *reports, color_offset = 2)
     title('Interests')
-    fig.savefig(target + prefix + 'cost_cum.jpg', dpi = dpi)
+    fig.savefig(target + prefix + 'cost_cum.png', dpi = dpi)
     plt.close(fig)
-    data['img_cost_cum'] = target + prefix + 'cost_cum.jpg'
+    data['img_cost_cum'] = target + prefix + 'cost_cum.png'
     
     return data
      
