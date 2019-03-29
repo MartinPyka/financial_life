@@ -30,7 +30,7 @@ def parse_datestring(datestr):
     """ Tries to parse the datestring against a few common formats """
     for format in date_formats:
         try:
-            date = datetime.strptime(datestr, format)
+            date = Bank_Date.strptime(datestr, format)
             return date
         except ValueError:
             pass
@@ -46,7 +46,7 @@ def valid_date(date):
         return Bank_Date.fromtimestamp(date.timestamp())
     if isinstance(date, str):
         return parse_datestring(date)
-    raise TypeError("Date must be at least from type datetime or callable")
+    raise TypeError("Date must be from type datetime, callable or a parseable string")
 
 def valid_stop_date(date):
     """ routine for makig a date out of anything that the user might

@@ -36,7 +36,7 @@ class Bank_Date(datetime):
             months = -(12 - sub2.month + 1) - self.month
             
         return years * 12 + months
-
+    
 
 def get_days_per_year(year):
     # returns the number of days per year
